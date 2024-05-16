@@ -16,8 +16,7 @@ export class HealthComponent {
 
   getHealthCheck() {
     this.healthService.getHealthCheck().subscribe(res => {
-      console.log(res)
-      this.status = res;
+      this.status = res.status;
     })
   }
 }

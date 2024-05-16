@@ -1,0 +1,14 @@
+<p>add-filter works!</p>
+<button nz-button nzType="primary" (click)="showModal()">Add Filter</button>
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Vertically centered modal dialog"
+  nzCentered
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+>
+
+  <ng-container *nzModalContent>
+    <p>HELLO</p>
+  </ng-container>
+</nz-modal>
