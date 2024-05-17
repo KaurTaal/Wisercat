@@ -1,5 +1,39 @@
-.app-content {
-  width: 100%;
+.app-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+  gap: 3em;
+}
+
+.app-content {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4em;
+}
+
+.app-content > :nth-child(2) {
+  width: 100%;
+}
+
+
+header {
+  padding: 1em;
+  background: white;
+  opacity: 0.25;
+  width: 100%;
+  color: black;
+  text-align: center;
+}
+
+footer {
+  margin-top: auto;
+  padding: 1em;
+  background: white;
+  opacity: 0.25;
+  width: 100%;
+  text-align: center;
+  color: black;
 }

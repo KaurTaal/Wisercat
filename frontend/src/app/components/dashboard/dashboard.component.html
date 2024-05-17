@@ -1,0 +1,14 @@
+<nz-collapse nzAccordion>
+    @for (filter of filters; track filter) {
+        <nz-collapse-panel [nzHeader]="filter.name" [nzExtra]="extraTpl">
+          <p>This is filter with id {{filter.filterId}} </p>
+        </nz-collapse-panel>
+    }
+</nz-collapse>
+
+
+<ng-template #extraTpl>
+  <!-- You can use stopPropagation if you don't want the panel to toggle -->
+  <span nz-icon nzType="delete" (click)="handleSettingsClick($event)"></span>
+  <span nz-icon nzType="edit"></span>
+</ng-template>
