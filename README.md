@@ -1,4 +1,5 @@
 # Wisercat
 Wisercat test assignment
 
-ngx-bootstrap?
+
+Swagger url: http://localhost:8081/swagger-ui/index.html#/
