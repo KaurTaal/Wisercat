@@ -166,7 +166,7 @@ export class FilterModalContentComponent implements OnInit {
     this.renderer.setStyle(document.body, 'cursor', 'nwse-resize');
     this.closableStatusChange.emit(false);
     this.setDragDirection(event.clientY);
-    this.currentHeight = ResizeUtils.setNewModalHeight(30, this.currentHeight, this.maxHeight, this.minHeight, this.isMouseMovingUp);
+    this.currentHeight = ResizeUtils.setNewModalHeight(17, this.currentHeight, this.maxHeight, this.minHeight, this.isMouseMovingUp);
   }
 
 
