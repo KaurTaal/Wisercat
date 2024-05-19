@@ -2,7 +2,6 @@ package com.wisercat.backend.app.web.controllers.filter;
 
 import com.wisercat.backend.app.web.model.dto.FilterDTO;
 import com.wisercat.backend.app.web.services.FilterService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
