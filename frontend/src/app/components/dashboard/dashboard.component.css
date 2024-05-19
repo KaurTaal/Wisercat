@@ -1,0 +1,17 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4em;
+  align-items: center;
+}
+
+.panel {
+  min-width: 75vw;
+}
+
+.collapse-bar-content {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  font-size: 1.2em;
+}

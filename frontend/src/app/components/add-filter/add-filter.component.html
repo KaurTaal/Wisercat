@@ -1,16 +1,30 @@
 <div>
-  <button nz-button nzType="primary" (click)="showModal()">Add Filter</button>
+  <div class="dashboard-btn-container">
+    <button nz-button nzType="primary" (click)="showModal()">Add Filter</button>
+    <nz-switch
+      (click)="toggleMode()"
+      [(ngModel)]="isNonModalMode"
+      nzCheckedChildren="Non-Modal"
+      nzUnCheckedChildren="Modal"
+    ></nz-switch>
+  </div>
   <nz-modal
+    style="min-width: 10em"
     [(nzVisible)]="isVisible"
-    nzTitle="Vertically centered modal dialog"
+    nzTitle="Add New Filter"
     nzCentered
-    (nzOnCancel)="handleCancel()"
-    (nzOnOk)="handleOk()"
+    (nzOnCancel)="handleCancel($event)"
+    (nzOnOk)="handleSave($event)"
+    [nzFooter]="null"
+    nzWidth="50em"
+    [nzMaskClosable]="isClosable"
   >
-
     <ng-container *nzModalContent>
-      <p>HELLO</p>
+      <app-filter-modal-content
+        (closableStatusChange)="updateClosableStatus($event)"
+        (closeEvent)="handleCancel($event)"
+        (saveEvent)="handleSave($event)"
+      ></app-filter-modal-content>
     </ng-container>
   </nz-modal>
 </div>
-

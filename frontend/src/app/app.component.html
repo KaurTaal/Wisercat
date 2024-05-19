@@ -1,19 +1,21 @@
 
 <div class="app-container">
-  <header>tere</header>
-
+  @if (isNonModalMode) {
+    <app-sidebar></app-sidebar>
+  }
   <div class="app-content">
-    <app-add-filter></app-add-filter>
-    <app-dashboard></app-dashboard>
-    <app-health></app-health>
+    <header>MUUMI</header>
+    <app-dashboard (modalChangeEvent)="handleModalChange($event)" ></app-dashboard>
+    <footer>
+        SNIFF
+    </footer>
   </div>
 
-  <footer>
-    <div>
-      <small>tere</small>
-    </div>
-  </footer>
 
 </div>
+
+
+
+
 
 <router-outlet />

@@ -1,8 +1,9 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NzCollapseComponent, NzCollapsePanelComponent} from "ng-zorro-antd/collapse";
 import {Filter} from "../../classes/Filter";
 import {FilterService} from "../../services/filter/filter.service";
 import {NzIconDirective} from "ng-zorro-antd/icon";
+import {AddFilterComponent} from "../add-filter/add-filter.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -10,19 +11,29 @@ import {NzIconDirective} from "ng-zorro-antd/icon";
   imports: [
     NzCollapseComponent,
     NzCollapsePanelComponent,
-    NzIconDirective
+    NzIconDirective,
+    AddFilterComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent implements OnInit{
 
-  private readonly filterService = inject(FilterService);
+export class DashboardComponent implements OnInit {
 
-  filters: Filter[] = [];
 
-  ngOnInit() {
+  @Input() filters: Filter[] = [];
+  @Output() modalChangeEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+
+  constructor(private filterService: FilterService) {
+  }
+
+  ngOnInit(): void {
     this.getAllFilters();
+  }
+
+  onFilterSave(filter: Filter): void {
+    this.filters.push(filter);
   }
 
   getAllFilters(): void {
@@ -31,8 +42,12 @@ export class DashboardComponent implements OnInit{
     })
   }
 
-  handleSettingsClick(event: MouseEvent) {
+  handleSettingsClick(event: MouseEvent): void {
     event.stopPropagation();
-    console.log("Maybe add a delete function");
+    console.log("Maybe add a delete function"); //TODO Add delete func?
+  }
+
+  handleModalChange(isNonModalMode: boolean): void {
+    this.modalChangeEvent.emit(isNonModalMode);
   }
 }

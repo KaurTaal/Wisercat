@@ -1,0 +1,107 @@
+<form nz-form [formGroup]="criteriaForm" class="modal-content-container">
+  <div class="name-container">
+    <nz-form-item>
+      <nz-form-control nzHasFeedback nzErrorTip="Name is Required">
+        <input formControlName="name" nz-input required name="required" placeholder="Choose name"/>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+  <div [style.max-height.px]="currentHeight" [style.min-height.px]="currentHeight" class="table-container" id="scrollbar">
+    <table>
+      <colgroup>
+        <col style="width: 30%;">
+        <col style="width: 30%;">
+        <col style="width: 30%;">
+        <col style="width: 10%;">
+      </colgroup>
+      <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+        <th>Value</th>
+        <th><span style="color: red" nz-icon nzType="delete"></span></th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (data of criteriaList; track data) {
+          <tr>
+
+            <td>
+              <a (click)="setActiveCriterionIndex($index)" nz-dropdown nzTrigger="click" [nzDropdownMenu]="typeSelect"
+                 ngDefaultControl>
+                {{ data.type }}
+                <span nz-icon nzType="down"></span>
+              </a>
+              <nz-dropdown-menu #typeSelect="nzDropdownMenu">
+                <ul nz-menu nzSelectable>
+                  @for (type of criterionTypeList; track type) {
+                    @if (type !== data.type) {
+                      <li nz-menu-item (click)="handleTypeSelect(type)">{{ type }}</li>
+                    }
+                  }
+                </ul>
+              </nz-dropdown-menu>
+            </td>
+
+
+            <td>
+              <a (click)="setActiveCriterionIndex($index)" nz-dropdown [nzDropdownMenu]="conditionSelect">
+                {{ data.condition }}
+                <span nz-icon nzType="down"></span>
+              </a>
+              <nz-dropdown-menu #conditionSelect="nzDropdownMenu">
+                <ul nz-menu nzSelectable>
+                  @for (condition of CriterionUtils.getConditionsByType(data.type); track condition) {
+                    @if (condition !== data.condition) {
+                      <li nz-menu-item (click)="handleConditionSelect(condition)">{{ condition }}</li>
+                    }
+                  }
+                </ul>
+              </nz-dropdown-menu>
+            </td>
+
+
+            <td>
+              @if (data.type === CritType.AMOUNT) {
+                <nz-input-number [ngModelOptions]="{standalone: true}" [(ngModel)]="data.valueAmount" [nzStep]="1"></nz-input-number>
+              }
+
+              @if (data.type === CritType.TITLE) {
+                <input [ngModelOptions]="{standalone: true}" [(ngModel)]="data.valueTitle" nz-input placeholder="Text" type="text"/>
+              }
+
+              @if (data.type === CritType.DATE) {
+                <nz-date-picker [ngModelOptions]="{standalone: true}" [(ngModel)]="data.valueDate"></nz-date-picker>
+              }
+
+            </td>
+
+            <td>
+              <button nz-button (click)="removeCriterion($index)">
+                <span style="color: red" nz-icon nzType="minus"></span>
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="add-filter-container">
+    <button style="color: lightgreen" nz-button (click)="addCriterion()">
+      <span style="color: lightgreen" nz-icon nzType="plus"></span>
+      Add new
+    </button>
+  </div>
+
+  <div class="modal-btn-container">
+    <button style="color: lightcoral" nz-button (click)="handleCancel()">Cancel</button>
+    <button style="color: lightgreen" nz-button (click)="handleSave()">Save</button>
+  </div>
+
+  <div (mousedown)='onCornerClick($event)' id='filter-modal-bottom-right-resize'
+       class='filter-modal-corner-resize'>
+    <span class="resize-icon" nz-icon nzType="radius-bottomright"></span>
+  </div>
+
+</form>

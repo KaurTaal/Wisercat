@@ -7,4 +7,6 @@ import java.util.List;
 public interface FilterService {
 
     List<FilterDTO> getAllFilters();
+
+    FilterDTO createFilter(FilterDTO filterDTO);
 }

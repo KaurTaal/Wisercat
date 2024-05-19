@@ -1,0 +1,11 @@
+<div [ngClass]="[menuStyle]" [style.max-height.%]="currentHeight" [style.min-height.%]="currentHeight" class="sidebar">
+  <a class="menu-btn" (click)="toggleMenuBar()"><i class="fa-solid fa-bars"></i>tsss</a>
+  <div *ngIf="isCollapsed" class="sidebar-content">
+
+  </div>
+
+  <div (mousedown)='onCornerClick($event)' class='sidebar-corner-resize'>
+    <span class="resize-icon" nz-icon nzType="radius-bottomright"></span>
+  </div>
+
+</div>

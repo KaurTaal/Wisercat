@@ -13,8 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 public class FilterDTO {
 
-    private Integer filterId;
+    private Long filterId;
     private String name;
+    private List<CriterionDTO> criterionDTOList;
 
 
     public static List<FilterDTO> mapList(List<FilterEntity> filterEntities) {
@@ -27,6 +28,7 @@ public class FilterDTO {
         FilterDTO filterDTO = new FilterDTO();
         filterDTO.setFilterId(filter.getFilterId());
         filterDTO.setName(filter.getName());
+        filterDTO.setCriterionDTOList(CriterionDTO.mapList(filter.getCriterions()));
         return filterDTO;
     }
 }

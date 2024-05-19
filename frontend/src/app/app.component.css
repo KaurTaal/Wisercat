@@ -1,23 +1,16 @@
 .app-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  /*align-items: center;*/
+  justify-content: left;
   min-height: 100%;
-  gap: 3em;
 }
 
 .app-content {
-  width: 95%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4em;
 }
-
-.app-content > :nth-child(2) {
-  width: 100%;
-}
-
 
 header {
   padding: 1em;

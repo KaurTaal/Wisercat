@@ -14,6 +14,10 @@ export class FilterService {
   }
 
   getAllFilters(): Observable<Filter[]> {
-    return this.http.get<Filter[]>("api/filters/getAllFilters");
+    return this.http.get<Filter[]>("api/filter/getAllFilters");
+  }
+
+  createFilter(newFilter: Filter): Observable<Filter> {
+    return this.http.post<Filter>("api/filter/createFilter", newFilter);
   }
 }

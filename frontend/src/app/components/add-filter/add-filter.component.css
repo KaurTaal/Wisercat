@@ -1,0 +1,10 @@
+.dashboard-btn-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2em;
+}
+
+::ng-deep .ant-switch {
+  min-width: 7em !important;
+}
