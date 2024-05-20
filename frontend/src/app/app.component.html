@@ -1,21 +1,19 @@
 
-<div class="app-container">
-  @if (isNonModalMode) {
-    <app-sidebar></app-sidebar>
-  }
-  <div class="app-content">
-    <header>MUUMI</header>
-    <app-dashboard (modalChangeEvent)="handleModalChange($event)" ></app-dashboard>
-    <footer>
+  <div class="app-container">
+    @if (isNonModalActive) {
+      <app-sidebar></app-sidebar>
+    }
+    <div class="app-content">
+      <header>MUUMI</header>
+
+      <app-dashboard></app-dashboard>
+
+      <footer>
         SNIFF
-    </footer>
+      </footer>
+    </div>
+
   </div>
-
-
-</div>
-
-
-
 
 
 <router-outlet />

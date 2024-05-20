@@ -1,7 +1,6 @@
 .app-container {
   display: flex;
   flex-direction: row;
-  /*align-items: center;*/
   justify-content: left;
   min-height: 100%;
 }

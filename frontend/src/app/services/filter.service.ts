@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Filter} from "../../classes/Filter";
+import {Filter} from "../classes/Filter";
 
 @Injectable({
   providedIn: 'root'

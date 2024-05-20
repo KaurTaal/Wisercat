@@ -1,13 +1,14 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzModalComponent, NzModalContentDirective, NzModalService} from "ng-zorro-antd/modal";
 import {FilterModalContentComponent} from "../../modals/filter-modal-content/filter-modal-content.component";
 import {Filter} from "../../classes/Filter";
-import {FilterService} from "../../services/filter/filter.service";
+import {FilterService} from "../../services/filter.service";
 import {CritType} from "../../classes/enums/CritType";
 import {Criterion} from "../../classes/Criterion";
 import {NzSwitchComponent} from "ng-zorro-antd/switch";
 import {FormsModule} from "@angular/forms";
+import {SharedDataService} from "../../services/shared-data-service";
 
 @Component({
   selector: 'app-add-filter',
@@ -29,22 +30,30 @@ import {FormsModule} from "@angular/forms";
 export class AddFilterComponent {
 
   @Output() filterCreated: EventEmitter<Filter> = new EventEmitter<Filter>();
-  @Output() modalChangeEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  isNonModalMode: boolean = false;
+
+  isRegularMode: boolean = true;
+
+
   isVisible: boolean = false;
   isClosable: boolean = false;
 
-  constructor(private filterService: FilterService) {
+  constructor(private filterService: FilterService,
+              private sharedDataService: SharedDataService,) {
   }
 
-  toggleMode(): void {
-    this.modalChangeEvent.emit(this.isNonModalMode);
+
+  toggleModalMode(): void {
+    if (this.isRegularMode) {
+      this.sharedDataService.setIsNonModalActive(true);
+    }
   }
 
   showModal(): void {
-    if (!this.isNonModalMode) {
+    if (this.isRegularMode) {
       this.isVisible = true;
+    } else {
+      this.sharedDataService.setShowNonModal(true);
     }
   }
 

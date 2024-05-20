@@ -2,11 +2,12 @@
   <div class="dashboard-btn-container">
     <button nz-button nzType="primary" (click)="showModal()">Add Filter</button>
     <nz-switch
-      (click)="toggleMode()"
-      [(ngModel)]="isNonModalMode"
-      nzCheckedChildren="Non-Modal"
-      nzUnCheckedChildren="Modal"
+      (click)="toggleModalMode()"
+      [(ngModel)]="isRegularMode"
     ></nz-switch>
+    <div>
+      Active: {{isRegularMode ? "Modal" : "Non-Modal"}}
+    </div>
   </div>
   <nz-modal
     style="min-width: 10em"
