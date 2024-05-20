@@ -4,6 +4,7 @@ import {DashboardComponent} from "../dashboard/dashboard.component";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {SharedDataService} from "../../services/shared-data-service";
 import {FilterFormComponent} from "../../forms/filter-form.component";
+import {ResizeWrapperComponent} from "../resize-wrapper/resize-wrapper.component";
 
 @Component({
   selector: 'app-sidebar',
@@ -14,10 +15,11 @@ import {FilterFormComponent} from "../../forms/filter-form.component";
     NgClass,
     NgIf,
     NzIconDirective,
-    FilterFormComponent
+    FilterFormComponent,
+    ResizeWrapperComponent
   ],
   templateUrl: './side-modal.component.html',
-  styleUrl: './side-modal.component.css'
+  styleUrl: './side-modal.component.scss'
 })
 export class SideModalComponent implements OnInit {
 

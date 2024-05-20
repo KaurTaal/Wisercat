@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, OnInit, Output, Renderer2} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output, Renderer2} from '@angular/core';
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzInputDirective} from "ng-zorro-antd/input";
@@ -45,7 +45,7 @@ import {ResizeUtils} from "../utils/ResizeUtils";
     ReactiveFormsModule
   ],
   templateUrl: './filter-form.component.html',
-  styleUrl: './filter-form.component.css'
+  styleUrl: './filter-form.component.scss'
 })
 export class FilterFormComponent implements OnInit {
 
@@ -72,7 +72,7 @@ export class FilterFormComponent implements OnInit {
 
   maxHeight: number = window.innerHeight * 0.5;
   minHeight: number = window.innerHeight * 0.2;
-  currentHeight: number = 200;
+  currentHeight: number = 500; //-261
   draggingCorner: boolean = false;
 
   private previousOffsetY: number | null = null;
@@ -163,10 +163,11 @@ export class FilterFormComponent implements OnInit {
       this.closableStatusChange.emit(true);
       return;
     }
+    //TODO injecti consutructoris document ja võta selle küljes
     this.renderer.setStyle(document.body, 'cursor', 'nwse-resize');
     this.closableStatusChange.emit(false);
     this.setDragDirection(event.clientY);
-    this.currentHeight = ResizeUtils.setNewModalHeight(10, this.currentHeight, this.maxHeight, this.minHeight, this.isMouseMovingUp);
+    this.currentHeight = ResizeUtils.setNewModalHeight(2, this.currentHeight, this.maxHeight, this.minHeight, this.isMouseMovingUp);
   }
 
 

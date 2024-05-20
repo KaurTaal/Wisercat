@@ -1,14 +1,21 @@
 <div class="app-container">
   <header>MUUMI</header>
   <div class="app-content">
-    <div class="testing">
-      <div>
-        <app-sidebar></app-sidebar>
-<!--        //TODO make this expand fully at start-->
-      </div>
+    <div style="display: flex; flex-direction: column;">
+      <app-sidebar></app-sidebar>
     </div>
     <div class="dashboard">
       <app-dashboard></app-dashboard>
+
+      <div style="border: 1px solid red;">
+
+        <app-resize-wrapper>
+          <div style="height: 50rem">
+            <app-filter-form></app-filter-form>
+          </div>
+        </app-resize-wrapper>
+
+      </div>
     </div>
   </div>
   <footer>SNIFF</footer>

@@ -1,13 +1,17 @@
+:host {
+  height: 100%;
+}
+
 .side-modal {
   position: relative;
   left: 0;
   background-color: #111;
   overflow-x: hidden;
-  padding-top: 3.75em;
   transition: 0.5s;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
 }
 
 .side-modal-no-transition {
@@ -15,7 +19,6 @@
 }
 
 .side-modal-corner-resize {
-  position: absolute;
   width: 30px;
   height: 30px;
   bottom: 0;
@@ -23,14 +26,6 @@
   cursor: nwse-resize;
 }
 
-a {
-  padding: 0.5em 0.5em 0.5em 2em;
-  text-decoration: none;
-  font-size: 1.25em;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-}
 
 .side-modal-content {
   display: flex;
@@ -38,18 +33,9 @@ a {
   flex-grow: 1;
 }
 
-@media screen and (max-height: 28em) {
-  .side-modal {
-    padding-top: 1em;
-  }
-
-  .side-modal a {
-    font-size: 1em;
-  }
-}
-
 .open-modal {
   width: 30vw;
+  height: 100%;
 }
 
 .close-modal {

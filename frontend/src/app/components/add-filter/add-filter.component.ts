@@ -38,6 +38,10 @@ export class AddFilterComponent {
 
   constructor(private filterService: FilterService,
               private sharedDataService: SharedDataService,) {
+
+    setTimeout(()=> {
+      this.showModal()
+    }, 200)
   }
 
   toggleMode() {
