@@ -1,19 +1,17 @@
-
-  <div class="app-container">
-    @if (isNonModalActive) {
-      <app-sidebar></app-sidebar>
-    }
-    <div class="app-content">
-      <header>MUUMI</header>
-
-      <app-dashboard></app-dashboard>
-
-      <footer>
-        SNIFF
-      </footer>
+<div class="app-container">
+  <header>MUUMI</header>
+  <div class="app-content">
+    <div class="testing">
+      <div>
+        <app-sidebar></app-sidebar>
+<!--        //TODO make this expand fully at start-->
+      </div>
     </div>
-
+    <div class="dashboard">
+      <app-dashboard></app-dashboard>
+    </div>
   </div>
-
+  <footer>SNIFF</footer>
+</div>
 
 <router-outlet />

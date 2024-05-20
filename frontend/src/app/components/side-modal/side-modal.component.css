@@ -1,5 +1,4 @@
 .side-modal {
-  height: 80%;
   position: relative;
   left: 0;
   background-color: #111;
@@ -21,14 +20,7 @@
   height: 30px;
   bottom: 0;
   right: 0;
-}
-
-.close-btn {
-  position: absolute;
-  top: 1em;
-  right: 1.5em;
-  font-size: 1.5em;
-  padding: 0;
+  cursor: nwse-resize;
 }
 
 a {
@@ -38,6 +30,12 @@ a {
   color: #818181;
   display: block;
   transition: 0.3s;
+}
+
+.side-modal-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 @media screen and (max-height: 28em) {

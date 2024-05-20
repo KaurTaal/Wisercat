@@ -1,14 +1,40 @@
-.app-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
-  min-height: 100%;
-}
-
-.app-content {
-  width: 100%;
+/* Ensure the container takes the full height of the viewport */
+html, body {
+  height: 100%;
+  margin: 0;
   display: flex;
   flex-direction: column;
+}
+
+/* Main container should take the full height of the viewport */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 100vh; /* Ensure the container takes the full height of the viewport */
+}
+
+/* Content should take the remaining space */
+.app-content {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: left;
+}
+
+/* .testing should take the remaining vertical space within app-content */
+.testing {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background: #4CAF50;
+}
+
+/* Dashboard should fill the available space horizontally */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 header {

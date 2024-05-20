@@ -95,13 +95,13 @@
   </div>
 
   <div class="modal-btn-container">
-    <button style="color: lightcoral" nz-button (click)="handleCancel()">Cancel</button>
+      <button style="color: lightcoral" nz-button (click)="handleCancel()">Cancel</button>
     <button style="color: lightgreen" nz-button (click)="handleSave()">Save</button>
   </div>
 
-  <div (mousedown)='onCornerClick($event)' id='filter-modal-bottom-right-resize'
-       class='filter-modal-corner-resize'>
-    <span class="resize-icon" nz-icon nzType="radius-bottomright"></span>
-  </div>
+    <div (mousedown)='onCornerClick($event)' id='filter-modal-bottom-right-resize'
+         class='filter-modal-corner-resize'>
+      <span class="resize-icon" nz-icon nzType="radius-bottomright"></span>
+    </div>
 
 </form>

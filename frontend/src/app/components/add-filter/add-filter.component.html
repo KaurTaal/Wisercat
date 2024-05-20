@@ -2,7 +2,7 @@
   <div class="dashboard-btn-container">
     <button nz-button nzType="primary" (click)="showModal()">Add Filter</button>
     <nz-switch
-      (click)="toggleModalMode()"
+      (click)="toggleMode()"
       [(ngModel)]="isRegularMode"
     ></nz-switch>
     <div>
@@ -21,11 +21,11 @@
     [nzMaskClosable]="isClosable"
   >
     <ng-container *nzModalContent>
-      <app-filter-modal-content
+      <app-filter-form
         (closableStatusChange)="updateClosableStatus($event)"
         (closeEvent)="handleCancel($event)"
         (saveEvent)="handleSave($event)"
-      ></app-filter-modal-content>
+      ></app-filter-form>
     </ng-container>
   </nz-modal>
 </div>

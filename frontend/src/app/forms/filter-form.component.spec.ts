@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FilterModalContentComponent } from './filter-modal-content.component';
+import { FilterFormComponent } from './filter-form.component';
 
 describe('FilterModalComponent', () => {
-  let component: FilterModalContentComponent;
-  let fixture: ComponentFixture<FilterModalContentComponent>;
+  let component: FilterFormComponent;
+  let fixture: ComponentFixture<FilterFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FilterModalContentComponent]
+      imports: [FilterFormComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FilterModalContentComponent);
+    fixture = TestBed.createComponent(FilterFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

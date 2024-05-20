@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, OnInit, Output, Renderer2} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output, Renderer2} from '@angular/core';
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzInputDirective} from "ng-zorro-antd/input";
@@ -12,19 +12,19 @@ import {
 } from "@angular/forms";
 import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
 import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
-import {CritType} from "../../classes/enums/CritType";
-import {Condition} from "../../classes/enums/Condition";
-import {Criterion} from "../../classes/Criterion";
-import {CriterionUtils} from "../../utils/CriterionUtils";
+import {CritType} from "../classes/enums/CritType";
+import {Condition} from "../classes/enums/Condition";
+import {Criterion} from "../classes/Criterion";
+import {CriterionUtils} from "../utils/CriterionUtils";
 import {NzInputNumberComponent} from "ng-zorro-antd/input-number";
 import {NzDatePickerComponent} from "ng-zorro-antd/date-picker";
-import {Filter} from "../../classes/Filter";
+import {Filter} from "../classes/Filter";
 import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from "ng-zorro-antd/form";
 import {NzColDirective} from "ng-zorro-antd/grid";
-import {ResizeUtils} from "../../utils/ResizeUtils";
+import {ResizeUtils} from "../utils/ResizeUtils";
 
 @Component({
-  selector: 'app-filter-modal-content',
+  selector: 'app-filter-form',
   standalone: true,
   imports: [
     NzIconDirective,
@@ -44,10 +44,10 @@ import {ResizeUtils} from "../../utils/ResizeUtils";
     NzColDirective,
     ReactiveFormsModule
   ],
-  templateUrl: './filter-modal-content.component.html',
-  styleUrl: './filter-modal-content.component.css'
+  templateUrl: './filter-form.component.html',
+  styleUrl: './filter-form.component.css'
 })
-export class FilterModalContentComponent implements OnInit {
+export class FilterFormComponent implements OnInit {
 
   protected readonly CriterionUtils = CriterionUtils;
   protected readonly CritType = CritType;
@@ -70,7 +70,7 @@ export class FilterModalContentComponent implements OnInit {
   criteriaList: Criterion[] = [];
   activeCriterionIndex: number = 0;
 
-  maxHeight: number = window.innerHeight * 0.6;
+  maxHeight: number = window.innerHeight * 0.5;
   minHeight: number = window.innerHeight * 0.2;
   currentHeight: number = 200;
   draggingCorner: boolean = false;
@@ -147,7 +147,7 @@ export class FilterModalContentComponent implements OnInit {
   }
 
   updateHeightLimits(): void {
-    this.maxHeight = window.innerHeight * 0.6;
+    this.maxHeight = window.innerHeight * 0.5;
     this.minHeight = window.innerHeight * 0.2;
   }
 
@@ -176,6 +176,5 @@ export class FilterModalContentComponent implements OnInit {
     }
     this.previousOffsetY = offsetY;
   }
-
 
 }

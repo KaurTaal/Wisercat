@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzModalComponent, NzModalContentDirective, NzModalService} from "ng-zorro-antd/modal";
-import {FilterModalContentComponent} from "../../modals/filter-modal-content/filter-modal-content.component";
+import {FilterFormComponent} from "../../forms/filter-form.component";
 import {Filter} from "../../classes/Filter";
 import {FilterService} from "../../services/filter.service";
 import {CritType} from "../../classes/enums/CritType";
@@ -17,7 +17,7 @@ import {SharedDataService} from "../../services/shared-data-service";
     NzButtonComponent,
     NzModalComponent,
     NzModalContentDirective,
-    FilterModalContentComponent,
+    FilterFormComponent,
     NzSwitchComponent,
     FormsModule,
   ],
@@ -31,9 +31,7 @@ export class AddFilterComponent {
 
   @Output() filterCreated: EventEmitter<Filter> = new EventEmitter<Filter>();
 
-
-  isRegularMode: boolean = true;
-
+  isRegularMode: boolean = false;
 
   isVisible: boolean = false;
   isClosable: boolean = false;
@@ -42,10 +40,9 @@ export class AddFilterComponent {
               private sharedDataService: SharedDataService,) {
   }
 
-
-  toggleModalMode(): void {
-    if (this.isRegularMode) {
-      this.sharedDataService.setIsNonModalActive(true);
+  toggleMode() {
+    if (!this.isRegularMode) {
+      this.sharedDataService.setShowNonModal(false);
     }
   }
 
