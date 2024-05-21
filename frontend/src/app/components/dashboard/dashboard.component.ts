@@ -5,6 +5,7 @@ import {FilterService} from "../../services/filter.service";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {AddFilterComponent} from "../add-filter/add-filter.component";
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {NzButtonComponent} from "ng-zorro-antd/button";
 
 @Component({
   selector: 'wc-dashboard',
@@ -14,6 +15,7 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
     NzCollapsePanelComponent,
     NzIconDirective,
     AddFilterComponent,
+    NzButtonComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
