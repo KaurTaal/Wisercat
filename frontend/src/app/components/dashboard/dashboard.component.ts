@@ -4,6 +4,7 @@ import {Filter} from "../../classes/Filter";
 import {FilterService} from "../../services/filter.service";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {AddFilterComponent} from "../add-filter/add-filter.component";
+import {NzNotificationService} from "ng-zorro-antd/notification";
 
 @Component({
   selector: 'wc-dashboard',
@@ -21,7 +22,8 @@ import {AddFilterComponent} from "../add-filter/add-filter.component";
 export class DashboardComponent implements OnInit {
   @Input() filters: Filter[] = [];
 
-  constructor(private filterService: FilterService) {
+  constructor(private filterService: FilterService,
+              private notification: NzNotificationService) {
   }
 
   ngOnInit(): void {
@@ -41,5 +43,14 @@ export class DashboardComponent implements OnInit {
   handleSettingsClick(event: MouseEvent): void {
     event.stopPropagation();
     console.log("Maybe add a delete function"); //TODO Add delete func?
+  }
+
+
+  createNotification(type: string): void {
+    this.notification.create(
+      type,
+      'Filter saved successfully!',
+      ''
+    );
   }
 }
