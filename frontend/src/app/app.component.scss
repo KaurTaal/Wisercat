@@ -1,14 +1,29 @@
-.app-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
-  min-height: 100%;
-}
-
-.app-content {
-  width: 100%;
+html, body {
+  height: 100%;
+  margin: 0;
   display: flex;
   flex-direction: column;
+}
+
+.wc-main-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 100vh;
+}
+
+.wc-main-content {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: left;
+}
+
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 header {

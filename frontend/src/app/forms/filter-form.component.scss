@@ -1,0 +1,51 @@
+:host{
+  overflow: auto;
+}
+
+.modal-content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  height: 100%;
+  padding: 2rem;
+}
+
+.modal-content-container :nth-child(1) {
+  align-self: flex-start;
+}
+
+.table-container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.add-filter-container {
+  width: 30%;
+}
+
+.add-filter-container button {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #000000;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+a {
+  color: inherit;
+}
+
+.modal-btn-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}

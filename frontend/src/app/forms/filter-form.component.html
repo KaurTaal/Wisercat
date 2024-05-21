@@ -6,7 +6,7 @@
       </nz-form-control>
     </nz-form-item>
   </div>
-  <div [style.max-height.px]="currentHeight" [style.min-height.px]="currentHeight" class="table-container" id="scrollbar">
+  <div  class="table-container" id="scrollbar">
     <table>
       <colgroup>
         <col style="width: 30%;">
@@ -95,13 +95,7 @@
   </div>
 
   <div class="modal-btn-container">
-    <button style="color: lightcoral" nz-button (click)="handleCancel()">Cancel</button>
+      <button style="color: lightcoral" nz-button (click)="handleCancel()">Cancel</button>
     <button style="color: lightgreen" nz-button (click)="handleSave()">Save</button>
   </div>
-
-  <div (mousedown)='onCornerClick($event)' id='filter-modal-bottom-right-resize'
-       class='filter-modal-corner-resize'>
-    <span class="resize-icon" nz-icon nzType="radius-bottomright"></span>
-  </div>
-
 </form>

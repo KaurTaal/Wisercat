@@ -1,0 +1,28 @@
+:host {
+  height: 100%;
+}
+
+.side-modal-container {
+  position: relative;
+  left: 0;
+  background-color: #000000;
+  overflow-x: hidden;
+  transition: 0.5s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.side-modal-no-transition {
+  transition: none !important;
+}
+
+.open-modal {
+  width: 30vw;
+  height: 100%;
+}
+
+.close-modal {
+  width: 0;
+  height: 100%;
+}

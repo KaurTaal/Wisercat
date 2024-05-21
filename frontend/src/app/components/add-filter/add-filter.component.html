@@ -2,7 +2,7 @@
   <div class="dashboard-btn-container">
     <button nz-button nzType="primary" (click)="showModal()">Add Filter</button>
     <nz-switch
-      (click)="toggleModalMode()"
+      (click)="toggleMode()"
       [(ngModel)]="isRegularMode"
     ></nz-switch>
     <div>
@@ -17,15 +17,19 @@
     (nzOnCancel)="handleCancel($event)"
     (nzOnOk)="handleSave($event)"
     [nzFooter]="null"
-    nzWidth="50em"
+    nzWidth="40rem"
     [nzMaskClosable]="isClosable"
   >
     <ng-container *nzModalContent>
-      <app-filter-modal-content
-        (closableStatusChange)="updateClosableStatus($event)"
-        (closeEvent)="handleCancel($event)"
-        (saveEvent)="handleSave($event)"
-      ></app-filter-modal-content>
+      <div>
+        <wc-resize-wrapper [minContainerHeight]="minRegularModalHeight" [maxContainerHeight]="maxRegularModalHeight">
+          <wc-filter-form
+            (closableStatusChange)="updateClosableStatus($event)"
+            (closeEvent)="handleCancel($event)"
+            (saveEvent)="handleSave($event)"
+          ></wc-filter-form>
+        </wc-resize-wrapper>
+      </div>
     </ng-container>
   </nz-modal>
 </div>

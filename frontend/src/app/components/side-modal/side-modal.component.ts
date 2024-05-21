@@ -1,37 +1,38 @@
-import {Component, HostListener, OnInit, Renderer2} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {NgClass, NgIf, NgStyle} from "@angular/common";
 import {DashboardComponent} from "../dashboard/dashboard.component";
 import {NzIconDirective} from "ng-zorro-antd/icon";
-import {ResizeUtils} from "../../utils/ResizeUtils";
 import {SharedDataService} from "../../services/shared-data-service";
+import {FilterFormComponent} from "../../forms/filter-form.component";
+import {ResizeWrapperComponent} from "../resize-wrapper/resize-wrapper.component";
 
 @Component({
-  selector: 'app-sidebar',
+  selector: 'wc-sidebar',
   standalone: true,
   imports: [
     NgStyle,
     DashboardComponent,
     NgClass,
     NgIf,
-    NzIconDirective
+    NzIconDirective,
+    FilterFormComponent,
+    ResizeWrapperComponent
   ],
   templateUrl: './side-modal.component.html',
-  styleUrl: './side-modal.component.css'
+  styleUrl: './side-modal.component.scss'
 })
-export class SideModalComponent implements OnInit {
+export class SideModalComponent implements OnInit, AfterViewInit {
 
+  @ViewChild('sideModalContainer') sideModal!: ElementRef;
   modalStyle: string = 'close-modal';
-  draggingCorner: boolean = false;
+  maxHeightForWrapper: number = 0;
+  minHeightForWrapper: number = 0;
+  percentageOfFullHeightMultiplier: number = 0.6;
 
-  maxHeight: number = 100;
-  minHeight: number = 50;
-  currentHeight: number = 100;
-
-  private previousOffsetY: number | null = null;
-  isMouseMovingUp: boolean = false;
-
-  constructor(private renderer: Renderer2,
-              private sharedDataService: SharedDataService,) {
+  constructor(
+              private sharedDataService: SharedDataService,
+              private cdr: ChangeDetectorRef,
+              ) {
   }
 
   ngOnInit(): void {
@@ -40,42 +41,19 @@ export class SideModalComponent implements OnInit {
     })
   }
 
+  ngAfterViewInit(): void {
+    this.maxHeightForWrapper = this.sideModal.nativeElement.offsetHeight;
+    this.minHeightForWrapper = this.sideModal.nativeElement.offsetHeight * this.percentageOfFullHeightMultiplier;
+    this.cdr.detectChanges();
+  }
+
   closeModal(): void {
     this.sharedDataService.setShowNonModal(false);
   }
 
-  onCornerClick(event: MouseEvent): void {
-    this.draggingCorner = true;
-    event.preventDefault();
-    event.stopPropagation();
+  @HostListener('window:resize', ['$event'])
+  onResize(): void {
+    this.maxHeightForWrapper = this.sideModal.nativeElement.offsetHeight;
+    this.minHeightForWrapper = this.sideModal.nativeElement.offsetHeight * this.percentageOfFullHeightMultiplier;
   }
-
-  @HostListener('document:mouseup', ['$event'])
-  onCornerRelease(): void {
-    this.draggingCorner = false;
-  }
-
-  @HostListener('document:mousemove', ['$event'])
-  onCornerMove(event: MouseEvent): void {
-    const sideModalElement = document.querySelector('.side-modal') as HTMLElement;
-
-    if (!this.draggingCorner) {
-      this.renderer.setStyle(document.body, 'cursor', 'auto');
-      this.renderer.removeClass(sideModalElement, 'side-modal-no-transition');
-      return;
-    }
-
-    this.renderer.addClass(sideModalElement, 'side-modal-no-transition');
-    this.renderer.setStyle(document.body, 'cursor', 'nwse-resize');
-    this.setDragDirection(event.clientY);
-    this.currentHeight = ResizeUtils.setNewModalHeight(1, this.currentHeight, this.maxHeight, this.minHeight, this.isMouseMovingUp);
-  }
-
-  private setDragDirection(offsetY: number): void {
-    if (this.previousOffsetY !== null) {
-      this.isMouseMovingUp = offsetY < this.previousOffsetY;
-    }
-    this.previousOffsetY = offsetY;
-  }
-
 }

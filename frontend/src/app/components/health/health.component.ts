@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import {HealthService} from "../../services/health.service";
 
 @Component({
-  selector: 'app-health',
+  selector: 'wc-health',
   standalone: true,
   imports: [],
   templateUrl: './health.component.html',
-  styleUrl: './health.component.css'
+  styleUrl: './health.component.scss'
 })
 export class HealthComponent {
   status: string = "Server is down";

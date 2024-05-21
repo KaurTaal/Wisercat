@@ -1,0 +1,17 @@
+<div
+  #resizeContainer
+  [style.height.%]="isInFullHeightByDefault ? 100 : undefined"
+  [style.max-height.px]="currentHeight"
+  [style.min-height.px]="currentHeight"
+  class="resize-container"
+>
+  <div class="content-full-size">
+      <ng-content></ng-content>
+  </div>
+  <div
+    (mousedown)='onCornerClick($event)'
+    class='resize-corner'
+  >
+    <span class="resize-icon" nz-icon nzType="radius-bottomright"></span>
+  </div>
+</div>

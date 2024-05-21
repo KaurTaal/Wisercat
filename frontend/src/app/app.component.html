@@ -1,19 +1,13 @@
-
-  <div class="app-container">
-    @if (isNonModalActive) {
-      <app-sidebar></app-sidebar>
-    }
-    <div class="app-content">
-      <header>MUUMI</header>
-
-      <app-dashboard></app-dashboard>
-
-      <footer>
-        SNIFF
-      </footer>
+<div class="wc-main-container">
+  <header>MUUMI</header>
+  <div class="wc-main-content">
+    <div>
+      <wc-sidebar></wc-sidebar>
     </div>
-
+    <div class="dashboard">
+      <wc-dashboard></wc-dashboard>
+    </div>
   </div>
-
-
+  <footer>SNIFF</footer>
+</div>
 <router-outlet />

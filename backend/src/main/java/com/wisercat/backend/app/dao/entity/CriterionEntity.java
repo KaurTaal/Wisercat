@@ -2,7 +2,7 @@ package com.wisercat.backend.app.dao.entity;
 
 
 import com.wisercat.backend.app.enums.ConditionEnum;
-import com.wisercat.backend.app.enums.CritTypeEnum;
+import com.wisercat.backend.app.enums.CriterionTypeEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +25,7 @@ public class CriterionEntity {
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    private CritTypeEnum type;
+    private CriterionTypeEnum type;
 
     @Column(name = "condition")
     @Enumerated(EnumType.STRING)

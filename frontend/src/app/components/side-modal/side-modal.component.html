@@ -1,11 +1,5 @@
-<div [ngClass]="[modalStyle]" [style.max-height.%]="currentHeight" [style.min-height.%]="currentHeight" class="side-modal">
-  <a class="close-btn" (click)="closeModal()"><span nz-icon nzType="close" nzTheme="outline"></span></a>
-  <div class="side-modal-content">
-
-  </div>
-
-  <div (mousedown)='onCornerClick($event)' class='side-modal-corner-resize'>
-    <span class="resize-icon" nz-icon nzType="radius-bottomright"></span>
-  </div>
-
+<div #sideModalContainer [ngClass]="[modalStyle]"  class="side-modal-container">
+    <wc-resize-wrapper [minContainerHeight]="minHeightForWrapper" [maxContainerHeight]="maxHeightForWrapper" isInFullHeightByDefault="true">
+      <wc-filter-form (closeEvent)="closeModal()"></wc-filter-form>
+    </wc-resize-wrapper>
 </div>
