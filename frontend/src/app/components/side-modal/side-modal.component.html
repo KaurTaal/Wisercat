@@ -1,13 +1,5 @@
-<!--<div [ngClass]="[modalStyle]"  class="side-modal">
-  <div class="side-modal-content">
-    <app-filter-form (closeEvent)="closeModal()"></app-filter-form>
-  </div>
-
-</div>
--->
-
-<div [ngClass]="[modalStyle]"  class="side-modal">
-  <app-resize-wrapper isInFullHeightByDefault="true">
-      <app-filter-form></app-filter-form>
-  </app-resize-wrapper>
+<div [ngClass]="[modalStyle]"  class="side-modal-container">
+    <app-resize-wrapper isInFullHeightByDefault="true">
+      <app-filter-form (closeEvent)="closeModal()"></app-filter-form>
+    </app-resize-wrapper>
 </div>

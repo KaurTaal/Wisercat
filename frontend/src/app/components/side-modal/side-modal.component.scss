@@ -2,7 +2,7 @@
   height: 100%;
 }
 
-.side-modal {
+.side-modal-container {
   position: relative;
   left: 0;
   background-color: #111;
@@ -24,13 +24,6 @@
   bottom: 0;
   right: 0;
   cursor: nwse-resize;
-}
-
-
-.side-modal-content {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
 }
 
 .open-modal {

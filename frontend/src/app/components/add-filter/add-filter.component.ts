@@ -9,6 +9,7 @@ import {Criterion} from "../../classes/Criterion";
 import {NzSwitchComponent} from "ng-zorro-antd/switch";
 import {FormsModule} from "@angular/forms";
 import {SharedDataService} from "../../services/shared-data-service";
+import {ResizeWrapperComponent} from "../resize-wrapper/resize-wrapper.component";
 
 @Component({
   selector: 'app-add-filter',
@@ -20,6 +21,7 @@ import {SharedDataService} from "../../services/shared-data-service";
     FilterFormComponent,
     NzSwitchComponent,
     FormsModule,
+    ResizeWrapperComponent,
   ],
   providers: [
     NzModalService

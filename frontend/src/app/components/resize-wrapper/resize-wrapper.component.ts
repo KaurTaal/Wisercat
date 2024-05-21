@@ -28,8 +28,8 @@ export class ResizeWrapperComponent {
   @ViewChild('resizeContainer') resizeContainer!: ElementRef
 
   draggingCorner: boolean = false;
-  maxHeight: number = window.innerHeight;
-  minHeight: number = window.innerHeight;
+  maxHeight: number = window.innerHeight * 0.7;
+  minHeight: number = window.innerHeight * 0.4;
   private previousOffsetY: number | null = null;
   isMouseMovingUp: boolean = false;
   currentHeight?:number;
@@ -56,8 +56,8 @@ export class ResizeWrapperComponent {
   }
 
   updateHeightLimits(): void {
-    this.maxHeight = window.innerHeight * 0.5;
-    this.minHeight = window.innerHeight * 0.2;
+    this.maxHeight = window.innerHeight * 0.7;
+    this.minHeight = window.innerHeight * 0.4;
   }
 
   @HostListener('document:mouseup', ['$event'])
@@ -74,7 +74,7 @@ export class ResizeWrapperComponent {
       }
       this.renderer.setStyle(document.body, 'cursor', 'nwse-resize');
       this.setDragDirection(event.clientY);
-      this.currentHeight = ResizeUtils.setNewModalHeight(2, this.currentHeight, this.maxHeight, this.minHeight, this.isMouseMovingUp);
+      this.currentHeight = ResizeUtils.setNewModalHeight(5, this.currentHeight, this.maxHeight, this.minHeight, this.isMouseMovingUp);
     }
   }
 
