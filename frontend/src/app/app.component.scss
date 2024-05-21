@@ -5,14 +5,14 @@ html, body {
   flex-direction: column;
 }
 
-.app-container {
+.wc-main-container {
   display: flex;
   flex-direction: column;
   flex: 1;
   min-height: 100vh;
 }
 
-.app-content {
+.wc-main-content {
   display: flex;
   flex: 1;
   flex-direction: row;

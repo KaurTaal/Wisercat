@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum CritTypeEnum {
+public enum CriterionTypeEnum {
     AMOUNT("Amount"),
     TITLE("Title"),
     DATE("Date");

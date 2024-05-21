@@ -5,25 +5,16 @@
 .side-modal-container {
   position: relative;
   left: 0;
-  background-color: #111;
+  background-color: #000000;
   overflow-x: hidden;
   transition: 0.5s;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
 }
 
 .side-modal-no-transition {
   transition: none !important;
-}
-
-.side-modal-corner-resize {
-  width: 30px;
-  height: 30px;
-  bottom: 0;
-  right: 0;
-  cursor: nwse-resize;
 }
 
 .open-modal {
@@ -33,4 +24,5 @@
 
 .close-modal {
   width: 0;
+  height: 100%;
 }

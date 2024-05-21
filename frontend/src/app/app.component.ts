@@ -12,9 +12,8 @@ import {FilterFormComponent} from "./forms/filter-form.component";
   standalone: true,
   imports: [RouterOutlet, HealthComponent, AddFilterComponent, DashboardComponent, SideModalComponent, ResizeWrapperComponent, FilterFormComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title: string = 'frontend';
-//TODO app prefix
 }

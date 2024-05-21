@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output, Renderer2} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzInputDirective} from "ng-zorro-antd/input";
@@ -12,7 +12,7 @@ import {
 } from "@angular/forms";
 import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
 import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
-import {CritType} from "../classes/enums/CritType";
+import {CriterionType} from "../classes/enums/CriterionType";
 import {Condition} from "../classes/enums/Condition";
 import {Criterion} from "../classes/Criterion";
 import {CriterionUtils} from "../utils/CriterionUtils";
@@ -21,10 +21,9 @@ import {NzDatePickerComponent} from "ng-zorro-antd/date-picker";
 import {Filter} from "../classes/Filter";
 import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from "ng-zorro-antd/form";
 import {NzColDirective} from "ng-zorro-antd/grid";
-import {ResizeUtils} from "../utils/ResizeUtils";
 
 @Component({
-  selector: 'app-filter-form',
+  selector: 'wc-filter-form',
   standalone: true,
   imports: [
     NzIconDirective,
@@ -50,7 +49,7 @@ import {ResizeUtils} from "../utils/ResizeUtils";
 export class FilterFormComponent implements OnInit {
 
   protected readonly CriterionUtils = CriterionUtils;
-  protected readonly CritType = CritType;
+  protected readonly CritType = CriterionType;
 
   @Output() filterChange: EventEmitter<Filter> = new EventEmitter<Filter>();
   @Output() closableStatusChange: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -64,36 +63,24 @@ export class FilterFormComponent implements OnInit {
     name: ['', [Validators.required]],
   })
 
-
   filter: Filter = new Filter(null, null, []);
-  criterionTypeList: CritType[] = [CritType.AMOUNT, CritType.TITLE, CritType.DATE];
+  criterionTypeList: CriterionType[] = [CriterionType.AMOUNT, CriterionType.TITLE, CriterionType.DATE];
   criteriaList: Criterion[] = [];
   activeCriterionIndex: number = 0;
 
-  maxHeight: number = window.innerHeight * 0.5;
-  minHeight: number = window.innerHeight * 0.2;
-  currentHeight: number = 500; //-261
-  draggingCorner: boolean = false;
-
-  private previousOffsetY: number | null = null;
-  isMouseMovingUp: boolean = false;
-
-  constructor(private renderer: Renderer2,
+  constructor(
               private formBuilder: NonNullableFormBuilder) {
-
   }
 
 
   ngOnInit(): void {
     this.addCriterion();
-    this.updateHeightLimits();
   }
 
   handleCancel(): void {
     const isModalVisible = false;
     this.closeEvent.emit(isModalVisible);
   }
-
 
   handleSave(): void {
     if (this.criteriaForm.valid) {
@@ -110,7 +97,7 @@ export class FilterFormComponent implements OnInit {
     }
   }
 
-  handleTypeSelect(selectedType: CritType): void {
+  handleTypeSelect(selectedType: CriterionType): void {
     this.criteriaList[this.activeCriterionIndex].type = selectedType;
     this.criteriaList[this.activeCriterionIndex].condition = CriterionUtils.getConditionsByType(selectedType)[0];
   }
@@ -124,7 +111,7 @@ export class FilterFormComponent implements OnInit {
   }
 
   addCriterion(): void {
-    const defaultNewCriterion: Criterion = new Criterion(null, CritType.AMOUNT, Condition.EQUAL_TO, null, null, null);
+    const defaultNewCriterion: Criterion = new Criterion(null, CriterionType.AMOUNT, Condition.EQUAL_TO, null, null, null);
     this.criteriaList.push(defaultNewCriterion);
   }
 
@@ -132,50 +119,6 @@ export class FilterFormComponent implements OnInit {
     if (this.criteriaList.length > 1) {
       this.criteriaList.splice(index, 1);
     }
-  }
-
-  onCornerClick(event: MouseEvent): void {
-    this.draggingCorner = true;
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-
-  @HostListener('window:resize', ['$event'])
-  onResize(): void {
-    this.updateHeightLimits();
-  }
-
-  updateHeightLimits(): void {
-    this.maxHeight = window.innerHeight * 0.5;
-    this.minHeight = window.innerHeight * 0.2;
-  }
-
-  @HostListener('document:mouseup', ['$event'])
-  onCornerRelease(): void {
-    this.draggingCorner = false;
-  }
-
-  @HostListener('document:mousemove', ['$event'])
-  onCornerMove(event: MouseEvent): void {
-    if (!this.draggingCorner) {
-      this.renderer.setStyle(document.body, 'cursor', 'auto');
-      this.closableStatusChange.emit(true);
-      return;
-    }
-    //TODO injecti consutructoris document ja võta selle küljes
-    this.renderer.setStyle(document.body, 'cursor', 'nwse-resize');
-    this.closableStatusChange.emit(false);
-    this.setDragDirection(event.clientY);
-    this.currentHeight = ResizeUtils.setNewModalHeight(2, this.currentHeight, this.maxHeight, this.minHeight, this.isMouseMovingUp);
-  }
-
-
-  private setDragDirection(offsetY: number): void {
-    if (this.previousOffsetY !== null) {
-      this.isMouseMovingUp = offsetY < this.previousOffsetY;
-    }
-    this.previousOffsetY = offsetY;
   }
 
 }

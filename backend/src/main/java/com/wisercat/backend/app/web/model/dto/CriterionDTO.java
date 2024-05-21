@@ -3,7 +3,7 @@ package com.wisercat.backend.app.web.model.dto;
 
 import com.wisercat.backend.app.dao.entity.CriterionEntity;
 import com.wisercat.backend.app.enums.ConditionEnum;
-import com.wisercat.backend.app.enums.CritTypeEnum;
+import com.wisercat.backend.app.enums.CriterionTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,7 @@ public class CriterionDTO {
 
     private Long critId;
     private Long filterId;
-    private CritTypeEnum type;
+    private CriterionTypeEnum type;
     private ConditionEnum condition;
     private Integer valueAmount;
     private String valueTitle;

@@ -1,18 +1,19 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Inject, OnInit, Output, PLATFORM_ID} from '@angular/core';
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzModalComponent, NzModalContentDirective, NzModalService} from "ng-zorro-antd/modal";
 import {FilterFormComponent} from "../../forms/filter-form.component";
 import {Filter} from "../../classes/Filter";
 import {FilterService} from "../../services/filter.service";
-import {CritType} from "../../classes/enums/CritType";
+import {CriterionType} from "../../classes/enums/CriterionType";
 import {Criterion} from "../../classes/Criterion";
 import {NzSwitchComponent} from "ng-zorro-antd/switch";
 import {FormsModule} from "@angular/forms";
 import {SharedDataService} from "../../services/shared-data-service";
 import {ResizeWrapperComponent} from "../resize-wrapper/resize-wrapper.component";
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
-  selector: 'app-add-filter',
+  selector: 'wc-add-filter',
   standalone: true,
   imports: [
     NzButtonComponent,
@@ -27,23 +28,39 @@ import {ResizeWrapperComponent} from "../resize-wrapper/resize-wrapper.component
     NzModalService
   ],
   templateUrl: './add-filter.component.html',
-  styleUrl: './add-filter.component.css'
+  styleUrl: './add-filter.component.scss'
 })
-export class AddFilterComponent {
+export class AddFilterComponent implements OnInit {
 
   @Output() filterCreated: EventEmitter<Filter> = new EventEmitter<Filter>();
 
   isRegularMode: boolean = false;
 
+  maxRegularModalHeight: number = 0;
+  minRegularModalHeight: number = 0;
+
   isVisible: boolean = false;
   isClosable: boolean = false;
 
   constructor(private filterService: FilterService,
-              private sharedDataService: SharedDataService,) {
+              private sharedDataService: SharedDataService,
+              @Inject(PLATFORM_ID) private platformId: any) {
 
-    setTimeout(()=> {
-      this.showModal()
-    }, 200)
+  }
+
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.maxRegularModalHeight = window.innerHeight * 0.8;
+      this.minRegularModalHeight = window.innerHeight * 0.5;
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.maxRegularModalHeight = window.innerHeight * 0.8;
+      this.minRegularModalHeight = window.innerHeight * 0.5;
+    }
   }
 
   toggleMode() {
@@ -81,15 +98,15 @@ export class AddFilterComponent {
     if (filter.criterionDTOList) {
       let criteria: Criterion[] = filter.criterionDTOList;
       criteria.forEach(crit => {
-        if (crit.type === CritType.AMOUNT) {
+        if (crit.type === CriterionType.AMOUNT) {
           crit.valueDate = null;
           crit.valueTitle = null;
         }
-        if (crit.type === CritType.DATE) {
+        if (crit.type === CriterionType.DATE) {
           crit.valueAmount = null;
           crit.valueTitle = null;
         }
-        if (crit.type === CritType.TITLE) {
+        if (crit.type === CriterionType.TITLE) {
           crit.valueDate = null;
           crit.valueAmount = null;
         }

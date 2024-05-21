@@ -6,7 +6,7 @@ import {NzIconDirective} from "ng-zorro-antd/icon";
 import {AddFilterComponent} from "../add-filter/add-filter.component";
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'wc-dashboard',
   standalone: true,
   imports: [
     NzCollapseComponent,
@@ -15,7 +15,7 @@ import {AddFilterComponent} from "../add-filter/add-filter.component";
     AddFilterComponent,
   ],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.scss'
 })
 
 export class DashboardComponent implements OnInit {

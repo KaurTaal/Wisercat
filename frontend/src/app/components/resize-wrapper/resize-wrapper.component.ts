@@ -1,20 +1,21 @@
 import {
-  AfterContentInit,
-  AfterViewChecked,
-  AfterViewInit, booleanAttribute,
+  booleanAttribute,
   Component,
   ElementRef,
-  HostListener, Input,
+  HostListener,
+  Inject,
+  Input,
+  OnInit,
+  PLATFORM_ID,
   Renderer2,
-  TemplateRef,
   ViewChild
 } from '@angular/core';
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {ResizeUtils} from "../../utils/ResizeUtils";
-import {NonNullableFormBuilder} from "@angular/forms";
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
-  selector: 'app-resize-wrapper',
+  selector: 'wc-resize-wrapper',
   standalone: true,
   imports: [
     NzIconDirective
@@ -22,26 +23,37 @@ import {NonNullableFormBuilder} from "@angular/forms";
   templateUrl: './resize-wrapper.component.html',
   styleUrl: './resize-wrapper.component.scss'
 })
-export class ResizeWrapperComponent {
+export class ResizeWrapperComponent implements OnInit {
 
-  @Input({required:false, transform: booleanAttribute}) isInFullHeightByDefault = false;
+  @Input({required: false, transform: booleanAttribute}) isInFullHeightByDefault: boolean = false;
+  @Input() maxContainerHeight: number = 0;
+  @Input() minContainerHeight: number = 0;
   @ViewChild('resizeContainer') resizeContainer!: ElementRef
 
   draggingCorner: boolean = false;
-  maxHeight: number = window.innerHeight * 0.7;
-  minHeight: number = window.innerHeight * 0.4;
-  private previousOffsetY: number | null = null;
+
+  resizeSpeed: number = 7;
+  maxHeightPercentage: number = 0.7;
+  minHeightPercentage: number = 0.4;
+  maxHeight: number = 0;
+  minHeight: number = 0;
+
+  previousOffsetY: number | null = null;
   isMouseMovingUp: boolean = false;
-  currentHeight?:number;
+  currentHeight?: number;
 
   constructor(private renderer: Renderer2,
+              @Inject(PLATFORM_ID) private platformId: any
   ) {
 
   }
 
+  ngOnInit() {
+    this.setMinAndMaxHeight();
+  }
 
   onCornerClick(event: MouseEvent): void {
-    if (!this.currentHeight){
+    if (!this.currentHeight) {
       this.currentHeight = this.resizeContainer.nativeElement.offsetHeight;
     }
     this.draggingCorner = true;
@@ -52,12 +64,7 @@ export class ResizeWrapperComponent {
 
   @HostListener('window:resize', ['$event'])
   onResize(): void {
-    this.updateHeightLimits();
-  }
-
-  updateHeightLimits(): void {
-    this.maxHeight = window.innerHeight * 0.7;
-    this.minHeight = window.innerHeight * 0.4;
+    this.setMinAndMaxHeight();
   }
 
   @HostListener('document:mouseup', ['$event'])
@@ -67,17 +74,17 @@ export class ResizeWrapperComponent {
 
   @HostListener('document:mousemove', ['$event'])
   onCornerMove(event: MouseEvent): void {
-    if (this.currentHeight){
+    if (this.currentHeight) {
       if (!this.draggingCorner) {
         this.renderer.setStyle(document.body, 'cursor', 'auto');
         return;
       }
+
       this.renderer.setStyle(document.body, 'cursor', 'nwse-resize');
       this.setDragDirection(event.clientY);
-      this.currentHeight = ResizeUtils.setNewModalHeight(5, this.currentHeight, this.maxHeight, this.minHeight, this.isMouseMovingUp);
+      this.currentHeight = ResizeUtils.setNewModalHeight(this.resizeSpeed, this.currentHeight, this.maxContainerHeight, this.minContainerHeight, this.isMouseMovingUp);
     }
   }
-
 
   private setDragDirection(offsetY: number): void {
     if (this.previousOffsetY !== null) {
@@ -87,4 +94,10 @@ export class ResizeWrapperComponent {
   }
 
 
+  private setMinAndMaxHeight(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.maxHeight = window.innerHeight * this.maxHeightPercentage;
+      this.minHeight = window.innerHeight * this.minHeightPercentage;
+    }
+  }
 }

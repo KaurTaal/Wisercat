@@ -17,18 +17,18 @@
     (nzOnCancel)="handleCancel($event)"
     (nzOnOk)="handleSave($event)"
     [nzFooter]="null"
-    nzWidth="50em"
+    nzWidth="40rem"
     [nzMaskClosable]="isClosable"
   >
     <ng-container *nzModalContent>
       <div>
-        <app-resize-wrapper>
-          <app-filter-form
+        <wc-resize-wrapper [minContainerHeight]="minRegularModalHeight" [maxContainerHeight]="maxRegularModalHeight">
+          <wc-filter-form
             (closableStatusChange)="updateClosableStatus($event)"
             (closeEvent)="handleCancel($event)"
             (saveEvent)="handleSave($event)"
-          ></app-filter-form>
-        </app-resize-wrapper>
+          ></wc-filter-form>
+        </wc-resize-wrapper>
       </div>
     </ng-container>
   </nz-modal>
