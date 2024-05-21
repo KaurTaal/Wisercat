@@ -49,7 +49,7 @@ import {NzColDirective} from "ng-zorro-antd/grid";
 export class FilterFormComponent implements OnInit {
 
   protected readonly CriterionUtils = CriterionUtils;
-  protected readonly CritType = CriterionType;
+  protected readonly criterionType = CriterionType;
 
   @Output() filterChange: EventEmitter<Filter> = new EventEmitter<Filter>();
   @Output() closableStatusChange: EventEmitter<boolean> = new EventEmitter<boolean>();

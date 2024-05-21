@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
   @Input() filters: Filter[] = [];
 
   constructor(private filterService: FilterService,
-              private notification: NzNotificationService) {
+              ) {
   }
 
   ngOnInit(): void {
@@ -47,12 +47,4 @@ export class DashboardComponent implements OnInit {
     console.log("Maybe add a delete function"); //TODO Add delete func?
   }
 
-
-  createNotification(type: string): void {
-    this.notification.create(
-      type,
-      'Filter saved successfully!',
-      ''
-    );
-  }
 }

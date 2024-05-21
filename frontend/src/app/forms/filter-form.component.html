@@ -62,15 +62,15 @@
 
 
             <td>
-              @if (data.type === CritType.AMOUNT) {
+              @if (data.type === criterionType.AMOUNT) {
                 <nz-input-number [ngModelOptions]="{standalone: true}" [(ngModel)]="data.valueAmount" [nzStep]="1"></nz-input-number>
               }
 
-              @if (data.type === CritType.TITLE) {
+              @if (data.type === criterionType.TITLE) {
                 <input [ngModelOptions]="{standalone: true}" [(ngModel)]="data.valueTitle" nz-input placeholder="Text" type="text"/>
               }
 
-              @if (data.type === CritType.DATE) {
+              @if (data.type === criterionType.DATE) {
                 <nz-date-picker [ngModelOptions]="{standalone: true}" [(ngModel)]="data.valueDate"></nz-date-picker>
               }
 
