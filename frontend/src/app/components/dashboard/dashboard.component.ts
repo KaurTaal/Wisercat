@@ -4,6 +4,7 @@ import {Filter} from "../../classes/Filter";
 import {FilterService} from "../../services/filter.service";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {AddFilterComponent} from "../add-filter/add-filter.component";
+import {NzButtonComponent} from "ng-zorro-antd/button";
 
 @Component({
   selector: 'wc-dashboard',
@@ -13,6 +14,7 @@ import {AddFilterComponent} from "../add-filter/add-filter.component";
     NzCollapsePanelComponent,
     NzIconDirective,
     AddFilterComponent,
+    NzButtonComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
@@ -21,7 +23,8 @@ import {AddFilterComponent} from "../add-filter/add-filter.component";
 export class DashboardComponent implements OnInit {
   @Input() filters: Filter[] = [];
 
-  constructor(private filterService: FilterService) {
+  constructor(private filterService: FilterService,
+              ) {
   }
 
   ngOnInit(): void {
@@ -42,4 +45,5 @@ export class DashboardComponent implements OnInit {
     event.stopPropagation();
     console.log("Maybe add a delete function"); //TODO Add delete func?
   }
+
 }

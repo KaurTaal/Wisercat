@@ -6,11 +6,12 @@ import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {SideModalComponent} from "./components/side-modal/side-modal.component";
 import {ResizeWrapperComponent} from "./components/resize-wrapper/resize-wrapper.component";
 import {FilterFormComponent} from "./forms/filter-form.component";
+import {AlertComponent} from "./alert/alert.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HealthComponent, AddFilterComponent, DashboardComponent, SideModalComponent, ResizeWrapperComponent, FilterFormComponent],
+  imports: [RouterOutlet, HealthComponent, AddFilterComponent, DashboardComponent, SideModalComponent, ResizeWrapperComponent, FilterFormComponent, AlertComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

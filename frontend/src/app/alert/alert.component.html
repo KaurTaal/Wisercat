@@ -1,0 +1,7 @@
+<div class="alerts-container">
+  @for (alert of alertBroker.getAllAlerts(); track alert) {
+      <div class="alert-container">
+        <nz-alert nzShowIcon class="alert-text-content fade-out" [nzType]="alert.type" [nzMessage]="alert.content" ></nz-alert>
+      </div>
+  }
+</div>
