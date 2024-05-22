@@ -3,7 +3,7 @@ import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzInputDirective} from "ng-zorro-antd/input";
 import {
-  FormControl,
+  FormArray,
   FormGroup,
   FormsModule,
   NonNullableFormBuilder,
@@ -14,13 +14,13 @@ import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdo
 import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
 import {CriterionType} from "../classes/enums/CriterionType";
 import {Condition} from "../classes/enums/Condition";
-import {Criterion} from "../classes/Criterion";
 import {CriterionUtils} from "../utils/CriterionUtils";
 import {NzInputNumberComponent} from "ng-zorro-antd/input-number";
 import {NzDatePickerComponent} from "ng-zorro-antd/date-picker";
 import {Filter} from "../classes/Filter";
 import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from "ng-zorro-antd/form";
 import {NzColDirective} from "ng-zorro-antd/grid";
+import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
 
 @Component({
   selector: 'wc-filter-form',
@@ -41,7 +41,9 @@ import {NzColDirective} from "ng-zorro-antd/grid";
     NzFormLabelComponent,
     NzFormControlComponent,
     NzColDirective,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NzSelectComponent,
+    NzOptionComponent
   ],
   templateUrl: './filter-form.component.html',
   styleUrl: './filter-form.component.scss'
@@ -56,20 +58,48 @@ export class FilterFormComponent implements OnInit {
   @Output() closeEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() saveEvent: EventEmitter<Filter> = new EventEmitter<Filter>();
 
-
-  criteriaForm: FormGroup<{
-    name: FormControl<string>;
-  }> = this.formBuilder.group({
-    name: ['', [Validators.required]],
-  })
-
   filter: Filter = new Filter(null, null, []);
   criterionTypeList: CriterionType[] = [CriterionType.AMOUNT, CriterionType.TITLE, CriterionType.DATE];
-  criteriaList: Criterion[] = [];
-  activeCriterionIndex: number = 0;
+
+  criteriaFormArray: FormArray;
+  filterForm: FormGroup;
 
   constructor(
-              private formBuilder: NonNullableFormBuilder) {
+    private formBuilder: NonNullableFormBuilder) {
+    this.filterForm = this.formBuilder.group({
+      name: [''],
+      criteriaList: this.formBuilder.array([])
+    });
+
+    this.criteriaFormArray = this.filterForm.get('criteriaList') as FormArray;
+  }
+
+
+  createCriteriaForm(): FormGroup {
+    return this.formBuilder.group({
+      type: [CriterionType.AMOUNT, Validators.required],
+      condition: [Condition.EQUAL_TO, Validators.required],
+      valueAmount: [null],
+      valueTitle: [null],
+      valueDate: [null]
+    });
+  }
+
+  submitForm(): void {
+    console.log('Form data:', this.filterForm.value);
+
+    if (this.filterForm.valid) {
+      console.log('Form data:', this.filterForm.value);
+    }
+  }
+
+  handleTypeChange(index: number): void {
+    const criterion = this.criteriaFormArray.at(index);
+    const newType: CriterionType = criterion.get('type')!.value;
+    criterion.get('valueAmount')!.setValue(null);
+    criterion.get('valueTitle')!.setValue(null);
+    criterion.get('valueDate')!.setValue(null);
+    criterion.get('condition')!.setValue(CriterionUtils.getConditionsByType(newType)[0]);
   }
 
 
@@ -83,12 +113,11 @@ export class FilterFormComponent implements OnInit {
   }
 
   handleSave(): void {
-    if (this.criteriaForm.valid) {
-      this.filter.name = this.criteriaForm.controls.name.value;
-      this.filter.criterionDTOList = this.criteriaList;
+    if (this.filterForm.valid) {
+      this.filter.name = this.filterForm.controls['name'].value;
       this.saveEvent.emit(this.filter);
     } else {
-      Object.values(this.criteriaForm.controls).forEach(control => {
+      Object.values(this.filterForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty()
           control.updateValueAndValidity({onlySelf: true});
@@ -97,27 +126,14 @@ export class FilterFormComponent implements OnInit {
     }
   }
 
-  handleTypeSelect(selectedType: CriterionType): void {
-    this.criteriaList[this.activeCriterionIndex].type = selectedType;
-    this.criteriaList[this.activeCriterionIndex].condition = CriterionUtils.getConditionsByType(selectedType)[0];
-  }
-
-  handleConditionSelect(selectedCondition: Condition): void {
-    this.criteriaList[this.activeCriterionIndex].condition = selectedCondition;
-  }
-
-  setActiveCriterionIndex(index: number): void {
-    this.activeCriterionIndex = index;
-  }
 
   addCriterion(): void {
-    const defaultNewCriterion: Criterion = new Criterion(null, CriterionType.AMOUNT, Condition.EQUAL_TO, null, null, null);
-    this.criteriaList.push(defaultNewCriterion);
+    this.criteriaFormArray.push(this.createCriteriaForm());
   }
 
   removeCriterion(index: number): void {
-    if (this.criteriaList.length > 1) {
-      this.criteriaList.splice(index, 1);
+    if (this.criteriaFormArray.length > 1) {
+      this.criteriaFormArray.removeAt(index);
     }
   }
 

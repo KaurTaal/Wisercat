@@ -1,12 +1,12 @@
-<form nz-form [formGroup]="criteriaForm" class="modal-content-container">
+<form class="modal-content-container" [formGroup]="filterForm" (ngSubmit)="submitForm()">
   <div class="name-container">
     <nz-form-item>
-      <nz-form-control nzHasFeedback nzErrorTip="Name is Required">
-        <input formControlName="name" nz-input required name="required" placeholder="Choose name"/>
-      </nz-form-control>
+          <nz-form-control nzHasFeedback nzErrorTip="Name is Required">
+            <input formControlName="name" nz-input required name="required" placeholder="Choose name"/>
+          </nz-form-control>
     </nz-form-item>
   </div>
-  <div  class="table-container" id="scrollbar">
+  <div class="table-container">
     <table>
       <colgroup>
         <col style="width: 30%;">
@@ -22,58 +22,44 @@
         <th><span style="color: red" nz-icon nzType="delete"></span></th>
       </tr>
       </thead>
-      <tbody>
-        @for (data of criteriaList; track data) {
-          <tr>
-
+      <tbody formArrayName="criteriaList">
+        @for (criteria of criteriaFormArray.controls; track criteria) {
+          <tr [formGroupName]="$index">
             <td>
-              <a (click)="setActiveCriterionIndex($index)" nz-dropdown nzTrigger="click" [nzDropdownMenu]="typeSelect"
-                 ngDefaultControl>
-                {{ data.type }}
-                <span nz-icon nzType="down"></span>
-              </a>
-              <nz-dropdown-menu #typeSelect="nzDropdownMenu">
-                <ul nz-menu nzSelectable>
+              <div class="form-group">
+                <nz-select (ngModelChange)="handleTypeChange($index)" formControlName="type">
                   @for (type of criterionTypeList; track type) {
-                    @if (type !== data.type) {
-                      <li nz-menu-item (click)="handleTypeSelect(type)">{{ type }}</li>
-                    }
+                    <nz-option [nzLabel]="type.toString()" [nzValue]="type"></nz-option>
                   }
-                </ul>
-              </nz-dropdown-menu>
+                </nz-select>
+              </div>
             </td>
 
-
             <td>
-              <a (click)="setActiveCriterionIndex($index)" nz-dropdown [nzDropdownMenu]="conditionSelect">
-                {{ data.condition }}
-                <span nz-icon nzType="down"></span>
-              </a>
-              <nz-dropdown-menu #conditionSelect="nzDropdownMenu">
-                <ul nz-menu nzSelectable>
-                  @for (condition of CriterionUtils.getConditionsByType(data.type); track condition) {
-                    @if (condition !== data.condition) {
-                      <li nz-menu-item (click)="handleConditionSelect(condition)">{{ condition }}</li>
-                    }
+              <div class="form-group">
+                <nz-select formControlName="condition">
+                  @for (condition of CriterionUtils.getConditionsByType(criteriaFormArray.at($index).get("type")?.value); track condition) {
+                    <nz-option [nzLabel]="condition.toString()" [nzValue]="condition"></nz-option>
                   }
-                </ul>
-              </nz-dropdown-menu>
+                </nz-select>
+              </div>
             </td>
 
-
             <td>
-              @if (data.type === criterionType.AMOUNT) {
-                <nz-input-number [ngModelOptions]="{standalone: true}" [(ngModel)]="data.valueAmount" [nzStep]="1"></nz-input-number>
-              }
+              <div class="form-group">
 
-              @if (data.type === criterionType.TITLE) {
-                <input [ngModelOptions]="{standalone: true}" [(ngModel)]="data.valueTitle" nz-input placeholder="Text" type="text"/>
-              }
+                @if (criteriaFormArray.at($index).get("type")?.value === criterionType.AMOUNT) {
+                  <nz-input-number formControlName="valueAmount" [nzStep]="1"></nz-input-number>
+                }
 
-              @if (data.type === criterionType.DATE) {
-                <nz-date-picker [ngModelOptions]="{standalone: true}" [(ngModel)]="data.valueDate"></nz-date-picker>
-              }
+                @if (criteriaFormArray.at($index).get("type")?.value === criterionType.TITLE) {
+                  <input formControlName="valueTitle" nz-input placeholder="Text" type="text"/>
+                }
 
+                @if (criteriaFormArray.at($index).get("type")?.value === criterionType.DATE) {
+                  <nz-date-picker formControlName="valueDate"></nz-date-picker>
+                }
+              </div>
             </td>
 
             <td>
@@ -87,6 +73,7 @@
     </table>
   </div>
 
+
   <div class="add-filter-container">
     <button style="color: lightgreen" nz-button (click)="addCriterion()">
       <span style="color: lightgreen" nz-icon nzType="plus"></span>
@@ -95,7 +82,7 @@
   </div>
 
   <div class="modal-btn-container">
-      <button style="color: lightcoral" nz-button (click)="handleCancel()">Cancel</button>
+    <button style="color: lightcoral" nz-button (click)="handleCancel()">Cancel</button>
     <button style="color: lightgreen" nz-button (click)="handleSave()">Save</button>
   </div>
 </form>
