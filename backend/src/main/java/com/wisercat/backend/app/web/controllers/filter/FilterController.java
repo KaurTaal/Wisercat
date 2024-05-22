@@ -25,7 +25,7 @@ public class FilterController {
 
     @PostMapping(path = "/createFilter", consumes = "application/json")
     public @ResponseBody FilterDTO createFilter(@RequestBody FilterDTO filterDTO) {
-        throw new UiAlertDangerException(UiAlertEnum.FILTER_SAVE_ERROR.getName());
-//        return filterService.createFilter(filterDTO);
+//        throw new UiAlertDangerException(UiAlertEnum.FILTER_SAVE_ERROR.getName());
+        return filterService.createFilter(filterDTO);
     }
 }

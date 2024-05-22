@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzInputDirective} from "ng-zorro-antd/input";
@@ -55,8 +55,6 @@ import {NzTooltipDirective} from "ng-zorro-antd/tooltip";
 })
 export class FilterFormComponent implements OnInit {
 
-  @ViewChild('#inputNumberControl') inputNumberControl: any;
-
   protected readonly CriterionUtils = CriterionUtils;
   protected readonly criterionType = CriterionType;
 
@@ -82,40 +80,6 @@ export class FilterFormComponent implements OnInit {
   }
 
 
-  createCriteriaForm(): FormGroup {
-    return this.formBuilder.group({
-      type: [CriterionType.AMOUNT, Validators.required],
-      condition: [Condition.EQUAL_TO, Validators.required],
-      valueAmount: [null],
-      valueTitle: [null],
-      valueDate: [null]
-    }, {validators: this.oneValueRequiredValidator()});
-  }
-
-  // TODO notify user
-  oneValueRequiredValidator(): ValidatorFn {
-    return (group: AbstractControl): ValidationErrors | null => {
-      const valueAmount = group.get('valueAmount')?.value;
-      const valueTitle = group.get('valueTitle')?.value;
-      const valueDate = group.get('valueDate')?.value;
-
-      if (valueAmount !== null || valueTitle !== null || valueDate !== null) {
-        return null;
-      }
-      return {oneValueRequired: true};
-    };
-  }
-
-  handleTypeChange(index: number): void {
-    const criterion = this.criteriaFormArray.at(index);
-    const newType: CriterionType = criterion.get('type')!.value;
-    criterion.get('valueAmount')!.setValue(null);
-    criterion.get('valueTitle')!.setValue(null);
-    criterion.get('valueDate')!.setValue(null);
-    criterion.get('condition')!.setValue(CriterionUtils.getConditionsByType(newType)[0]);
-  }
-
-
   ngOnInit(): void {
     this.addCriterion();
   }
@@ -129,16 +93,64 @@ export class FilterFormComponent implements OnInit {
     if (this.filterForm.valid) {
       this.filter.name = this.filterForm.controls['name'].value;
       this.filter.criterionDTOList = this.criteriaFormArray.value;
+
+      this.saveEvent.emit(this.filter);
+      this.clearFormAndHide();
     } else {
-      Object.values(this.filterForm.controls).forEach(control => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({onlySelf: true});
-        }
-      })
+      this.validateControls(this.filterForm);
+      this.validateControls(this.criteriaFormArray);
     }
   }
 
+  createCriteriaForm(): FormGroup {
+    return this.formBuilder.group({
+      type: [CriterionType.AMOUNT, Validators.required],
+      condition: [Condition.EQUAL_TO, Validators.required],
+      valueAmount: [null],
+      valueTitle: [null],
+      valueDate: [null]
+    }, {validators: this.oneValueRequiredValidator()});
+  }
+
+  oneValueRequiredValidator(): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+      let controlList = this.getControlList(group);
+
+      controlList.forEach((control: AbstractControl<any, any> | null) => this.setValueToNullOnEmpty(control));
+      const isValueMissing: boolean = controlList.some((control: { value: null; }): boolean => control?.value !== null);
+
+      if (isValueMissing) {
+        return null;
+      }
+      return {oneValueRequired: true};
+    };
+  }
+
+
+  handleTypeChange(index: number): void {
+    const criterion = this.criteriaFormArray.at(index);
+    const newType: CriterionType = criterion.get('type')!.value;
+
+    ['valueAmount', 'valueTitle', 'valueDate'].forEach(controlName => {
+      criterion.get(controlName)!.setValue(null);
+    });
+    criterion.get('condition')!.setValue(CriterionUtils.getConditionsByType(newType)[0]);
+    this.markControlAsPristine(index);
+  }
+
+  markControlAsPristine(index: number): void {
+    let criterion = this.criteriaFormArray.at(index);
+    criterion.markAsPristine();
+  }
+
+  getControlStatus(index: number): any {
+    const control = this.criteriaFormArray.at(index);
+    return control.invalid && control.dirty ? 'error' : '';
+  }
+
+  getControlValue(index: number) {
+    return this.criteriaFormArray.at(index).get("type")?.value;
+  }
 
   addCriterion(): void {
     this.criteriaFormArray.push(this.createCriteriaForm());
@@ -150,4 +162,37 @@ export class FilterFormComponent implements OnInit {
     }
   }
 
+  private validateControls(form: FormArray | FormGroup): void {
+    Object.values(form.controls).forEach(control => {
+      if (control.invalid) {
+        control.markAsDirty();
+        control.updateValueAndValidity({onlySelf: true});
+      }
+    })
+  }
+
+  private clearFormAndHide(): void {
+    this.criteriaFormArray.clear();
+    this.addCriterion();
+    this.filterForm.reset();
+
+    this.handleCancel();
+  }
+
+  private setValueToNullOnEmpty(valueControl: AbstractControl<any, any> | null): void {
+    if (valueControl) {
+      const isValueEmpty: boolean | null = valueControl.value === '';
+      if (isValueEmpty) {
+        valueControl.setValue(null, {emitEvent: false});
+      }
+    }
+  }
+
+  private getControlList(group: AbstractControl): any {
+    const valueAmountControl = group.get('valueAmount');
+    const valueTitleControl = group.get('valueTitle');
+    const valueDateControl = group.get('valueDate');
+
+    return [valueAmountControl, valueTitleControl, valueDateControl];
+  }
 }

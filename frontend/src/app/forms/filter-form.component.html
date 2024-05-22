@@ -27,7 +27,7 @@
           <tr [formGroupName]="$index">
             <td>
               <div class="form-group">
-                <nz-select (ngModelChange)="handleTypeChange($index)" formControlName="type">
+                <nz-select class="input-width-100" (ngModelChange)="handleTypeChange($index)" formControlName="type">
                   @for (type of criterionTypeList; track type) {
                     <nz-option [nzLabel]="type.toString()" [nzValue]="type"></nz-option>
                   }
@@ -37,9 +37,9 @@
 
             <td>
               <div class="form-group">
-                <nz-select formControlName="condition">
-                  @for (condition of CriterionUtils.getConditionsByType(criteriaFormArray.at($index).get("type")?.value); track condition) {
-                    <nz-option [nzLabel]="condition.toString()" [nzValue]="condition"></nz-option>
+                <nz-select class="input-width-100" (ngModelChange)="markControlAsPristine($index)" formControlName="condition">
+                  @for (condition of CriterionUtils.getConditionsByType(getControlValue($index)); track condition) {
+                      <nz-option [nzLabel]="condition.toString()" [nzValue]="condition"></nz-option>
                   }
                 </nz-select>
               </div>
@@ -48,15 +48,15 @@
             <td>
               <div class="form-group">
                 @if (criteriaFormArray.at($index).get("type")?.value === criterionType.AMOUNT) {
-                  <nz-input-number formControlName="valueAmount" [nzStep]="1"></nz-input-number>
+                  <nz-input-number class="input-width-100" [nzStatus]="getControlStatus($index)" formControlName="valueAmount" [nzStep]="1"></nz-input-number>
                 }
 
                 @if (criteriaFormArray.at($index).get("type")?.value === criterionType.TITLE) {
-                  <input formControlName="valueTitle" nz-input placeholder="Title" type="text"/>
+                  <input class="input-width-100" [nzStatus]="getControlStatus($index)" formControlName="valueTitle" nz-input placeholder="Title" type="text"/>
                 }
 
                 @if (criteriaFormArray.at($index).get("type")?.value === criterionType.DATE) {
-                  <nz-date-picker formControlName="valueDate"></nz-date-picker>
+                  <nz-date-picker class="input-width-100" [nzStatus]="getControlStatus($index)" formControlName="valueDate"></nz-date-picker>
                 }
               </div>
             </td>
