@@ -7,6 +7,7 @@ import {AddFilterComponent} from "../add-filter/add-filter.component";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {SharedDataService} from "../../services/shared-data-service";
 import {Subscription} from "rxjs";
+import {NzCardComponent} from "ng-zorro-antd/card";
 
 @Component({
   selector: 'wc-dashboard',
@@ -17,6 +18,7 @@ import {Subscription} from "rxjs";
     NzIconDirective,
     AddFilterComponent,
     NzButtonComponent,
+    NzCardComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
