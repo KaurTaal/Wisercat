@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   booleanAttribute,
   Component,
   ElementRef,
@@ -23,7 +24,7 @@ import {isPlatformBrowser} from "@angular/common";
   templateUrl: './resize-wrapper.component.html',
   styleUrl: './resize-wrapper.component.scss'
 })
-export class ResizeWrapperComponent implements OnInit {
+export class ResizeWrapperComponent implements OnInit, AfterViewInit {
 
   @Input({required: false, transform: booleanAttribute}) isInFullHeightByDefault: boolean = false;
   @Input() maxContainerHeight: number = 0;
@@ -50,6 +51,10 @@ export class ResizeWrapperComponent implements OnInit {
 
   ngOnInit() {
     this.setMinAndMaxHeight();
+  }
+
+  ngAfterViewInit() {
+    this.currentHeight = this.resizeContainer.nativeElement.offsetHeight;
   }
 
   onCornerClick(event: MouseEvent): void {
