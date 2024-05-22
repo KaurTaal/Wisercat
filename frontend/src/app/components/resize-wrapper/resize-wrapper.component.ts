@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   booleanAttribute,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -44,7 +45,8 @@ export class ResizeWrapperComponent implements OnInit, AfterViewInit {
   currentHeight?: number;
 
   constructor(private renderer: Renderer2,
-              @Inject(PLATFORM_ID) private platformId: any
+              @Inject(PLATFORM_ID) private platformId: any,
+              private cdr: ChangeDetectorRef,
   ) {
 
   }
@@ -55,6 +57,7 @@ export class ResizeWrapperComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.currentHeight = this.resizeContainer.nativeElement.offsetHeight;
+    this.cdr.detectChanges();
   }
 
   onCornerClick(event: MouseEvent): void {

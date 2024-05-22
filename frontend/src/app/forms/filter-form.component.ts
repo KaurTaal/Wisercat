@@ -1,13 +1,16 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzInputDirective} from "ng-zorro-antd/input";
 import {
+  AbstractControl,
   FormArray,
   FormGroup,
   FormsModule,
   NonNullableFormBuilder,
   ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
   Validators
 } from "@angular/forms";
 import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
@@ -21,6 +24,7 @@ import {Filter} from "../classes/Filter";
 import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from "ng-zorro-antd/form";
 import {NzColDirective} from "ng-zorro-antd/grid";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
+import {NzTooltipDirective} from "ng-zorro-antd/tooltip";
 
 @Component({
   selector: 'wc-filter-form',
@@ -43,12 +47,15 @@ import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
     NzColDirective,
     ReactiveFormsModule,
     NzSelectComponent,
-    NzOptionComponent
+    NzOptionComponent,
+    NzTooltipDirective
   ],
   templateUrl: './filter-form.component.html',
   styleUrl: './filter-form.component.scss'
 })
 export class FilterFormComponent implements OnInit {
+
+  @ViewChild('#inputNumberControl') inputNumberControl: any;
 
   protected readonly CriterionUtils = CriterionUtils;
   protected readonly criterionType = CriterionType;
@@ -67,7 +74,7 @@ export class FilterFormComponent implements OnInit {
   constructor(
     private formBuilder: NonNullableFormBuilder) {
     this.filterForm = this.formBuilder.group({
-      name: [''],
+      name: ['', [Validators.required]],
       criteriaList: this.formBuilder.array([])
     });
 
@@ -82,15 +89,21 @@ export class FilterFormComponent implements OnInit {
       valueAmount: [null],
       valueTitle: [null],
       valueDate: [null]
-    });
+    }, {validators: this.oneValueRequiredValidator()});
   }
 
-  submitForm(): void {
-    console.log('Form data:', this.filterForm.value);
+  // TODO notify user
+  oneValueRequiredValidator(): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+      const valueAmount = group.get('valueAmount')?.value;
+      const valueTitle = group.get('valueTitle')?.value;
+      const valueDate = group.get('valueDate')?.value;
 
-    if (this.filterForm.valid) {
-      console.log('Form data:', this.filterForm.value);
-    }
+      if (valueAmount !== null || valueTitle !== null || valueDate !== null) {
+        return null;
+      }
+      return {oneValueRequired: true};
+    };
   }
 
   handleTypeChange(index: number): void {
@@ -115,11 +128,11 @@ export class FilterFormComponent implements OnInit {
   handleSave(): void {
     if (this.filterForm.valid) {
       this.filter.name = this.filterForm.controls['name'].value;
-      this.saveEvent.emit(this.filter);
+      this.filter.criterionDTOList = this.criteriaFormArray.value;
     } else {
       Object.values(this.filterForm.controls).forEach(control => {
         if (control.invalid) {
-          control.markAsDirty()
+          control.markAsDirty();
           control.updateValueAndValidity({onlySelf: true});
         }
       })

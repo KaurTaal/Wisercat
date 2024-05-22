@@ -1,9 +1,9 @@
-<form class="modal-content-container" [formGroup]="filterForm" (ngSubmit)="submitForm()">
+<form class="modal-content-container" [formGroup]="filterForm">
   <div class="name-container">
     <nz-form-item>
-          <nz-form-control nzHasFeedback nzErrorTip="Name is Required">
-            <input formControlName="name" nz-input required name="required" placeholder="Choose name"/>
-          </nz-form-control>
+      <nz-form-control nzHasFeedback nzErrorTip="Name is Required">
+        <input formControlName="name" nz-input required name="required" placeholder="Choose name"/>
+      </nz-form-control>
     </nz-form-item>
   </div>
   <div class="table-container">
@@ -47,13 +47,12 @@
 
             <td>
               <div class="form-group">
-
                 @if (criteriaFormArray.at($index).get("type")?.value === criterionType.AMOUNT) {
                   <nz-input-number formControlName="valueAmount" [nzStep]="1"></nz-input-number>
                 }
 
                 @if (criteriaFormArray.at($index).get("type")?.value === criterionType.TITLE) {
-                  <input formControlName="valueTitle" nz-input placeholder="Text" type="text"/>
+                  <input formControlName="valueTitle" nz-input placeholder="Title" type="text"/>
                 }
 
                 @if (criteriaFormArray.at($index).get("type")?.value === criterionType.DATE) {
