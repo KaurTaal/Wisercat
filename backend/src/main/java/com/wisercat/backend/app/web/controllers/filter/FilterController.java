@@ -1,7 +1,5 @@
 package com.wisercat.backend.app.web.controllers.filter;
 
-import com.wisercat.backend.app.enums.UiAlertEnum;
-import com.wisercat.backend.app.exceptions.UiAlertDangerException;
 import com.wisercat.backend.app.web.model.dto.FilterDTO;
 import com.wisercat.backend.app.web.services.FilterService;
 import lombok.RequiredArgsConstructor;
