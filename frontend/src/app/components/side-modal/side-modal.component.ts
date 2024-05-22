@@ -5,6 +5,8 @@ import {NzIconDirective} from "ng-zorro-antd/icon";
 import {SharedDataService} from "../../services/shared-data-service";
 import {FilterFormComponent} from "../../forms/filter-form.component";
 import {ResizeWrapperComponent} from "../resize-wrapper/resize-wrapper.component";
+import {FilterService} from "../../services/filter.service";
+import {Filter} from "../../classes/Filter";
 
 @Component({
   selector: 'wc-sidebar',
@@ -30,9 +32,10 @@ export class SideModalComponent implements OnInit, AfterViewInit {
   percentageOfFullHeightMultiplier: number = 0.6;
 
   constructor(
-              private sharedDataService: SharedDataService,
-              private cdr: ChangeDetectorRef,
-              ) {
+    private sharedDataService: SharedDataService,
+    private cdr: ChangeDetectorRef,
+    private filterService: FilterService,
+  ) {
   }
 
   ngOnInit(): void {
@@ -49,6 +52,13 @@ export class SideModalComponent implements OnInit, AfterViewInit {
 
   closeModal(): void {
     this.sharedDataService.setShowNonModal(false);
+  }
+
+  handleSave(newFilter: Filter): void {
+    this.closeModal();
+    this.filterService.createFilter(newFilter).subscribe(res => {
+      this.sharedDataService.emitFilterCreated(res);
+    })
   }
 
   @HostListener('window:resize', ['$event'])

@@ -1,5 +1,5 @@
 <div #sideModalContainer [ngClass]="[modalStyle]"  class="side-modal-container">
     <wc-resize-wrapper [minContainerHeight]="minHeightForWrapper" [maxContainerHeight]="maxHeightForWrapper" isInFullHeightByDefault="true">
-      <wc-filter-form (closeEvent)="closeModal()"></wc-filter-form>
+      <wc-filter-form (saveEvent)="handleSave($event)" (closeEvent)="closeModal()"></wc-filter-form>
     </wc-resize-wrapper>
 </div>

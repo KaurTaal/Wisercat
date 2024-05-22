@@ -1,7 +1,5 @@
 package com.wisercat.backend.app.web.controllers.filter;
 
-import com.wisercat.backend.app.enums.UiAlertEnum;
-import com.wisercat.backend.app.exceptions.UiAlertDangerException;
 import com.wisercat.backend.app.web.model.dto.FilterDTO;
 import com.wisercat.backend.app.web.services.FilterService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +23,7 @@ public class FilterController {
 
     @PostMapping(path = "/createFilter", consumes = "application/json")
     public @ResponseBody FilterDTO createFilter(@RequestBody FilterDTO filterDTO) {
-        throw new UiAlertDangerException(UiAlertEnum.FILTER_SAVE_ERROR.getName());
-//        return filterService.createFilter(filterDTO);
+//        throw new UiAlertDangerException(UiAlertEnum.FILTER_SAVE_ERROR.getName());
+        return filterService.createFilter(filterDTO);
     }
 }

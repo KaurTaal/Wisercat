@@ -3,24 +3,28 @@ import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzInputDirective} from "ng-zorro-antd/input";
 import {
-  FormControl,
+  AbstractControl,
+  FormArray,
   FormGroup,
   FormsModule,
   NonNullableFormBuilder,
   ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
   Validators
 } from "@angular/forms";
 import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
 import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
 import {CriterionType} from "../classes/enums/CriterionType";
 import {Condition} from "../classes/enums/Condition";
-import {Criterion} from "../classes/Criterion";
 import {CriterionUtils} from "../utils/CriterionUtils";
 import {NzInputNumberComponent} from "ng-zorro-antd/input-number";
 import {NzDatePickerComponent} from "ng-zorro-antd/date-picker";
 import {Filter} from "../classes/Filter";
 import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from "ng-zorro-antd/form";
 import {NzColDirective} from "ng-zorro-antd/grid";
+import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
+import {NzTooltipDirective} from "ng-zorro-antd/tooltip";
 
 @Component({
   selector: 'wc-filter-form',
@@ -41,7 +45,10 @@ import {NzColDirective} from "ng-zorro-antd/grid";
     NzFormLabelComponent,
     NzFormControlComponent,
     NzColDirective,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NzSelectComponent,
+    NzOptionComponent,
+    NzTooltipDirective
   ],
   templateUrl: './filter-form.component.html',
   styleUrl: './filter-form.component.scss'
@@ -56,20 +63,20 @@ export class FilterFormComponent implements OnInit {
   @Output() closeEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() saveEvent: EventEmitter<Filter> = new EventEmitter<Filter>();
 
-
-  criteriaForm: FormGroup<{
-    name: FormControl<string>;
-  }> = this.formBuilder.group({
-    name: ['', [Validators.required]],
-  })
-
   filter: Filter = new Filter(null, null, []);
   criterionTypeList: CriterionType[] = [CriterionType.AMOUNT, CriterionType.TITLE, CriterionType.DATE];
-  criteriaList: Criterion[] = [];
-  activeCriterionIndex: number = 0;
+
+  criteriaFormArray: FormArray;
+  filterForm: FormGroup;
 
   constructor(
-              private formBuilder: NonNullableFormBuilder) {
+    private formBuilder: NonNullableFormBuilder) {
+    this.filterForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      criteriaList: this.formBuilder.array([])
+    });
+
+    this.criteriaFormArray = this.filterForm.get('criteriaList') as FormArray;
   }
 
 
@@ -83,42 +90,109 @@ export class FilterFormComponent implements OnInit {
   }
 
   handleSave(): void {
-    if (this.criteriaForm.valid) {
-      this.filter.name = this.criteriaForm.controls.name.value;
-      this.filter.criterionDTOList = this.criteriaList;
+    if (this.filterForm.valid) {
+      this.filter.name = this.filterForm.controls['name'].value;
+      this.filter.criterionDTOList = this.criteriaFormArray.value;
+
       this.saveEvent.emit(this.filter);
+      this.clearFormAndHide();
     } else {
-      Object.values(this.criteriaForm.controls).forEach(control => {
-        if (control.invalid) {
-          control.markAsDirty()
-          control.updateValueAndValidity({onlySelf: true});
-        }
-      })
+      this.validateControls(this.filterForm);
+      this.validateControls(this.criteriaFormArray);
     }
   }
 
-  handleTypeSelect(selectedType: CriterionType): void {
-    this.criteriaList[this.activeCriterionIndex].type = selectedType;
-    this.criteriaList[this.activeCriterionIndex].condition = CriterionUtils.getConditionsByType(selectedType)[0];
+  createCriteriaForm(): FormGroup {
+    return this.formBuilder.group({
+      type: [CriterionType.AMOUNT, Validators.required],
+      condition: [Condition.EQUAL_TO, Validators.required],
+      valueAmount: [null],
+      valueTitle: [null],
+      valueDate: [null]
+    }, {validators: this.oneValueRequiredValidator()});
   }
 
-  handleConditionSelect(selectedCondition: Condition): void {
-    this.criteriaList[this.activeCriterionIndex].condition = selectedCondition;
+  oneValueRequiredValidator(): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+      let controlList = this.getControlList(group);
+
+      controlList.forEach((control: AbstractControl<any, any> | null) => this.setValueToNullOnEmpty(control));
+      const isValueMissing: boolean = controlList.some((control: { value: null; }): boolean => control?.value !== null);
+
+      if (isValueMissing) {
+        return null;
+      }
+      return {oneValueRequired: true};
+    };
   }
 
-  setActiveCriterionIndex(index: number): void {
-    this.activeCriterionIndex = index;
+
+  handleTypeChange(index: number): void {
+    const criterion = this.criteriaFormArray.at(index);
+    const newType: CriterionType = criterion.get('type')!.value;
+
+    ['valueAmount', 'valueTitle', 'valueDate'].forEach(controlName => {
+      criterion.get(controlName)!.setValue(null);
+    });
+    criterion.get('condition')!.setValue(CriterionUtils.getConditionsByType(newType)[0]);
+    this.markControlAsPristine(index);
+  }
+
+  markControlAsPristine(index: number): void {
+    let criterion = this.criteriaFormArray.at(index);
+    criterion.markAsPristine();
+  }
+
+  getControlStatus(index: number): any {
+    const control = this.criteriaFormArray.at(index);
+    return control.invalid && control.dirty ? 'error' : '';
+  }
+
+  getControlValue(index: number) {
+    return this.criteriaFormArray.at(index).get("type")?.value;
   }
 
   addCriterion(): void {
-    const defaultNewCriterion: Criterion = new Criterion(null, CriterionType.AMOUNT, Condition.EQUAL_TO, null, null, null);
-    this.criteriaList.push(defaultNewCriterion);
+    this.criteriaFormArray.push(this.createCriteriaForm());
   }
 
   removeCriterion(index: number): void {
-    if (this.criteriaList.length > 1) {
-      this.criteriaList.splice(index, 1);
+    if (this.criteriaFormArray.length > 1) {
+      this.criteriaFormArray.removeAt(index);
     }
   }
 
+  private validateControls(form: FormArray | FormGroup): void {
+    Object.values(form.controls).forEach(control => {
+      if (control.invalid) {
+        control.markAsDirty();
+        control.updateValueAndValidity({onlySelf: true});
+      }
+    })
+  }
+
+  private clearFormAndHide(): void {
+    this.criteriaFormArray.clear();
+    this.addCriterion();
+    this.filterForm.reset();
+
+    this.handleCancel();
+  }
+
+  private setValueToNullOnEmpty(valueControl: AbstractControl<any, any> | null): void {
+    if (valueControl) {
+      const isValueEmpty: boolean | null = valueControl.value === '';
+      if (isValueEmpty) {
+        valueControl.setValue(null, {emitEvent: false});
+      }
+    }
+  }
+
+  private getControlList(group: AbstractControl): any {
+    const valueAmountControl = group.get('valueAmount');
+    const valueTitleControl = group.get('valueTitle');
+    const valueDateControl = group.get('valueDate');
+
+    return [valueAmountControl, valueTitleControl, valueDateControl];
+  }
 }

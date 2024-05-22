@@ -3,15 +3,24 @@
   flex-direction: column;
   gap: 4rem;
   align-items: center;
+  padding: 1rem;
+  min-height: 100vh;
 }
 
-.panel {
-  min-width: 63vw;
-}
-
-.collapse-bar-content {
+.dashboard-content {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
-  font-size: 1.2rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+
+.dashboard-header {
+  width: 100%;
+  padding: 0 4rem 0 4rem;
+}
+
+.add-filter-content {
+  padding-top: 4rem;
 }

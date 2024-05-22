@@ -1,24 +1,23 @@
 <div class="dashboard-container">
-  <div>
-    <wc-add-filter
-                    (filterCreated)="onFilterSave($event)"></wc-add-filter>
+  <div class="add-filter-content">
+    <wc-add-filter></wc-add-filter>
   </div>
 
-  <div>
-    <nz-collapse nzAccordion>
-      @for (filter of filters; track filter) {
-        <nz-collapse-panel class="panel" [nzHeader]="filter.name!" [nzExtra]="extraTpl">
-          <p>This is filter with id {{ filter.filterId }} </p>
-        </nz-collapse-panel>
-      }
-    </nz-collapse>
+  <div class="dashboard-header">
+    <h1>Saved Filters</h1>
+    <hr>
+  </div>
 
-    <ng-template #extraTpl>
-      <div class="collapse-bar-content">
-        <span nz-icon nzType="delete" (click)="handleSettingsClick($event)"></span>
-        <span nz-icon nzType="edit"></span>
-      </div>
-    </ng-template>
+  <div class="dashboard-content">
+
+    @for (filter of filters; track filter) {
+      <nz-card style="width:300px;" [nzTitle]="filter.name!">
+        <p>Card content</p>
+        <p>Card content</p>
+        <p>Card content</p>
+      </nz-card>
+    }
+
   </div>
 </div>
 
