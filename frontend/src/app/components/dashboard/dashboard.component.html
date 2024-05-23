@@ -10,13 +10,25 @@
 
   <div class="dashboard-content">
 
-    @for (filter of filters; track filter) {
-      <nz-card style="width:300px;" [nzTitle]="filter.name!">
-        <p>Card content</p>
-        <p>Card content</p>
-        <p>Card content</p>
-      </nz-card>
-    }
+    <ul>
+      @for (filter of filters; track filter) {
+        <li>
+          <nz-card style="width:300px;" [nzTitle]="filter.name!">
+            <p>Card content</p>
+            <p>Card content</p>
+            <p>Card content</p>
+          </nz-card>
+        </li>
+      }
+    </ul>
+
+<!--    @for (filter of filters; track filter) {-->
+<!--      <nz-card style="width:300px;" [nzTitle]="filter.name!">-->
+<!--        <p>Card content</p>-->
+<!--        <p>Card content</p>-->
+<!--        <p>Card content</p>-->
+<!--      </nz-card>-->
+<!--    }-->
 
   </div>
 </div>
