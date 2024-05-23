@@ -34,7 +34,7 @@ export class ResizeWrapperComponent implements OnInit, AfterViewInit {
 
   draggingCorner: boolean = false;
 
-  resizeSpeed: number = 7;
+  resizeSpeed: number = 10;
   maxHeightPercentage: number = 0.7;
   minHeightPercentage: number = 0.4;
   maxHeight: number = 0;
