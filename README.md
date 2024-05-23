@@ -20,7 +20,7 @@ Before running the backend make sure your computer has Java 17 installed. To che
 If needed you can install Java 17 [here](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html).
 
 Make also sure you have Gradle. A thorough installation guide can be found [here](https://gradle.org/install/).
-To run the backend successfully ensure that the docker container is running.
+To run the backend successfully ensure that the docker container is running. To check if Gradle is installed run the command `gradle -v`.
 
 Running:
 - Open a terminal in ``wisercat/backend``
