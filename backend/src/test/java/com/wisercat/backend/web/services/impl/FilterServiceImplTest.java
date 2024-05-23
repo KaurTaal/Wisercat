@@ -98,9 +98,7 @@ public class FilterServiceImplTest {
     void testThrowErrorDeleteMissingFilter() {
         Long filterId = 1L;
         when(filterRepository.findById(filterId)).thenReturn(Optional.empty());
-        assertThrows(UiAlertDangerException.class, () -> {
-            sut.deleteFilter(filterId);
-        });
+        assertThrows(UiAlertDangerException.class, () -> sut.deleteFilter(filterId));
     }
 
 
@@ -109,18 +107,14 @@ public class FilterServiceImplTest {
         CriterionDTO criterionDTO = new CriterionDTO();
         FilterDTO filterDTO = new FilterDTO(null, null, Collections.singletonList(criterionDTO));
 
-        assertThrows(UiAlertDangerException.class, () -> {
-            sut.createFilter(filterDTO);
-        });
+        assertThrows(UiAlertDangerException.class, () -> sut.createFilter(filterDTO));
     }
 
     @Test
     void testThrowErrorOnNoCriterionList() {
         FilterDTO filterDTO = new FilterDTO(null, "Sniff", null);
 
-        assertThrows(UiAlertDangerException.class, () -> {
-            sut.createFilter(filterDTO);
-        });
+        assertThrows(UiAlertDangerException.class, () -> sut.createFilter(filterDTO));
     }
 
     @Test
@@ -128,9 +122,7 @@ public class FilterServiceImplTest {
         List<CriterionDTO> emptyList = new ArrayList<>();
         FilterDTO filterDTO = new FilterDTO(null, "Sniff", emptyList);
 
-        assertThrows(UiAlertDangerException.class, () -> {
-            sut.createFilter(filterDTO);
-        });
+        assertThrows(UiAlertDangerException.class, () -> sut.createFilter(filterDTO));
     }
 
     @Test
@@ -139,9 +131,7 @@ public class FilterServiceImplTest {
         criterionDTO.setType(null);
 
         FilterDTO filterDTO = new FilterDTO(null, "Sniff", Collections.singletonList(criterionDTO));
-        assertThrows(UiAlertDangerException.class, () -> {
-            sut.createFilter(filterDTO);
-        });
+        assertThrows(UiAlertDangerException.class, () -> sut.createFilter(filterDTO));
     }
 
     @Test
@@ -151,9 +141,7 @@ public class FilterServiceImplTest {
         criterionDTO.setCondition(null);
 
         FilterDTO filterDTO = new FilterDTO(null, "Sniff", Collections.singletonList(criterionDTO));
-        assertThrows(UiAlertDangerException.class, () -> {
-            sut.createFilter(filterDTO);
-        });
+        assertThrows(UiAlertDangerException.class, () -> sut.createFilter(filterDTO));
     }
 
     @Test
@@ -166,9 +154,7 @@ public class FilterServiceImplTest {
         criterionDTO.setValueDate(null);
 
         FilterDTO filterDTO = new FilterDTO(null, "Sniff", Collections.singletonList(criterionDTO));
-        assertThrows(UiAlertDangerException.class, () -> {
-            sut.createFilter(filterDTO);
-        });
+        assertThrows(UiAlertDangerException.class, () -> sut.createFilter(filterDTO));
     }
 
     @Test
@@ -181,9 +167,7 @@ public class FilterServiceImplTest {
         criterionDTO.setValueDate(new Date());
 
         FilterDTO filterDTO = new FilterDTO(null, "Sniff", Collections.singletonList(criterionDTO));
-        assertThrows(UiAlertDangerException.class, () -> {
-            sut.createFilter(filterDTO);
-        });
+        assertThrows(UiAlertDangerException.class, () -> sut.createFilter(filterDTO));
     }
 
     @Test
@@ -196,9 +180,7 @@ public class FilterServiceImplTest {
         criterionDTO.setValueDate(new Date());
 
         FilterDTO filterDTO = new FilterDTO(null, "Sniff", Collections.singletonList(criterionDTO));
-        assertThrows(UiAlertDangerException.class, () -> {
-            sut.createFilter(filterDTO);
-        });
+        assertThrows(UiAlertDangerException.class, () -> sut.createFilter(filterDTO));
     }
 
     @Test
@@ -211,9 +193,7 @@ public class FilterServiceImplTest {
         criterionDTO.setValueDate(null);
 
         FilterDTO filterDTO = new FilterDTO(null, "Sniff", Collections.singletonList(criterionDTO));
-        assertThrows(UiAlertDangerException.class, () -> {
-            sut.createFilter(filterDTO);
-        });
+        assertThrows(UiAlertDangerException.class, () -> sut.createFilter(filterDTO));
     }
 
     @Test
@@ -226,9 +206,7 @@ public class FilterServiceImplTest {
         criterionDTO.setValueDate(new Date());
 
         FilterDTO filterDTO = new FilterDTO(null, "Sniff", Collections.singletonList(criterionDTO));
-        assertThrows(UiAlertDangerException.class, () -> {
-            sut.createFilter(filterDTO);
-        });
+        assertThrows(UiAlertDangerException.class, () -> sut.createFilter(filterDTO));
     }
 
 
@@ -242,9 +220,7 @@ public class FilterServiceImplTest {
         criterionDTO.setValueDate(null);
 
         FilterDTO filterDTO = new FilterDTO(null, "Sniff", Collections.singletonList(criterionDTO));
-        assertThrows(UiAlertDangerException.class, () -> {
-            sut.createFilter(filterDTO);
-        });
+        assertThrows(UiAlertDangerException.class, () -> sut.createFilter(filterDTO));
     }
 
 }
