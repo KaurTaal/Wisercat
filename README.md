@@ -7,7 +7,7 @@ Wisercat test assignment
 To set up the database you need to run a docker container. If Docker isn't installed then you can install it from [here](https://www.docker.com/products/docker-desktop/).
 
 Creating the database:
-* Create Docker image: ```docker build -t wc-db-image .```
+* Create Docker image: ```docker build -t wc-db-image .``` (run `docker images -a` if you want to confirm that the image was created.)
 * Create Docker container: ```docker run -d --name wc-db-container -p 5432:5432 wc-db-image```
 
 You can check the status of running containers using the command ```docker ps```.
