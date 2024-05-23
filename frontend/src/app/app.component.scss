@@ -9,7 +9,6 @@ html, body {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 100vh;
 }
 
 .wc-main-content {
@@ -54,7 +53,6 @@ footer {
 .sticky-side-modal {
   position: sticky;
   top: 0;
-  background: #4CAF50;
   height: 100vh;
 
 }
