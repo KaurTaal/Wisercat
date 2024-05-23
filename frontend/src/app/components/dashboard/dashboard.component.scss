@@ -7,10 +7,6 @@
   min-height: 100vh;
 }
 
-.dashboard-content {
-}
-
-
 .dashboard-header {
   width: 100%;
   padding: 0 4rem 0 4rem;
@@ -28,4 +24,26 @@ li {
   margin: 1rem 1.5rem;
   box-sizing: border-box;
   text-align: left;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.delete-button {
+  margin-left: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #000000;
+  padding: 0.5rem;
+  text-align: center;
 }

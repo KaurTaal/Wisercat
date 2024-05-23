@@ -15,12 +15,12 @@ import {
 } from "@angular/forms";
 import {NzDropDownDirective, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
 import {NzMenuDirective, NzMenuItemComponent} from "ng-zorro-antd/menu";
-import {CriterionType} from "../classes/enums/CriterionType";
-import {Condition} from "../classes/enums/Condition";
+import {CriterionType} from "../model/enums/CriterionType";
+import {Condition} from "../model/enums/Condition";
 import {CriterionUtils} from "../utils/CriterionUtils";
 import {NzInputNumberComponent} from "ng-zorro-antd/input-number";
 import {NzDatePickerComponent} from "ng-zorro-antd/date-picker";
-import {Filter} from "../classes/Filter";
+import {Filter} from "../model/Filter";
 import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent} from "ng-zorro-antd/form";
 import {NzColDirective} from "ng-zorro-antd/grid";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
@@ -63,7 +63,6 @@ export class FilterFormComponent implements OnInit {
   @Output() closeEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() saveEvent: EventEmitter<Filter> = new EventEmitter<Filter>();
 
-  filter: Filter = new Filter(null, null, []);
   criterionTypeList: CriterionType[] = [CriterionType.AMOUNT, CriterionType.TITLE, CriterionType.DATE];
 
   criteriaFormArray: FormArray;
@@ -91,10 +90,12 @@ export class FilterFormComponent implements OnInit {
 
   handleSave(): void {
     if (this.filterForm.valid) {
-      this.filter.name = this.filterForm.controls['name'].value;
-      this.filter.criterionDTOList = this.criteriaFormArray.value;
-
-      this.saveEvent.emit(this.filter);
+      const newFilter: Filter = {
+        filterId: null,
+        name: this.filterForm.controls['name'].value,
+        criterionDTOList: this.criteriaFormArray.value,
+      }
+      this.saveEvent.emit(newFilter);
       this.clearFormAndHide();
     } else {
       this.validateControls(this.filterForm);
@@ -114,7 +115,7 @@ export class FilterFormComponent implements OnInit {
 
   oneValueRequiredValidator(): ValidatorFn {
     return (group: AbstractControl): ValidationErrors | null => {
-      let controlList = this.getControlList(group);
+      const controlList = this.getControlList(group);
 
       controlList.forEach((control: AbstractControl<any, any> | null) => this.setValueToNullOnEmpty(control));
       const isValueMissing: boolean = controlList.some((control: { value: null; }): boolean => control?.value !== null);

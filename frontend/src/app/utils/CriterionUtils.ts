@@ -1,5 +1,5 @@
-import {CriterionType} from "../classes/enums/CriterionType";
-import {Condition} from "../classes/enums/Condition";
+import {CriterionType} from "../model/enums/CriterionType";
+import {Condition} from "../model/enums/Condition";
 
 export class CriterionUtils {
   static getConditionsByType(type: CriterionType): string[] {

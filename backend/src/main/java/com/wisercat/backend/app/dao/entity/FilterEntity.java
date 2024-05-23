@@ -14,11 +14,12 @@ public class FilterEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "filter_id")
     private Long filterId;
 
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "critId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "filterEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CriterionEntity> criterions;
 }

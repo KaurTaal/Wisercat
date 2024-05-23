@@ -2,7 +2,7 @@ import {Component, HostListener, Inject, OnInit, PLATFORM_ID} from '@angular/cor
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzModalComponent, NzModalContentDirective, NzModalService} from "ng-zorro-antd/modal";
 import {FilterFormComponent} from "../../forms/filter-form.component";
-import {Filter} from "../../classes/Filter";
+import {Filter} from "../../model/Filter";
 import {FilterService} from "../../services/filter.service";
 import {NzSwitchComponent} from "ng-zorro-antd/switch";
 import {FormsModule} from "@angular/forms";

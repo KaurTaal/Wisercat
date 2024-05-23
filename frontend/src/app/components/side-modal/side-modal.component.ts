@@ -6,7 +6,7 @@ import {SharedDataService} from "../../services/shared-data-service";
 import {FilterFormComponent} from "../../forms/filter-form.component";
 import {ResizeWrapperComponent} from "../resize-wrapper/resize-wrapper.component";
 import {FilterService} from "../../services/filter.service";
-import {Filter} from "../../classes/Filter";
+import {Filter} from "../../model/Filter";
 
 @Component({
   selector: 'wc-sidebar',

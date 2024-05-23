@@ -17,9 +17,10 @@ public class CriterionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "crit_id")
     private Long critId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "filter_id", nullable = false)
     private FilterEntity filterEntity;
 
