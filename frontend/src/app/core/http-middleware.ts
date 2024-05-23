@@ -14,15 +14,17 @@ export const httpMiddleware: HttpInterceptorFn = (req, next) => {
     }))
     .pipe(tap((response) => {
       if (response instanceof HttpResponse) {
-        // @ts-ignore
-        if (response?.body.responseType) {
+        if (response.body) {
           // @ts-ignore
-          if (response?.body.responseType === 'ui-exception') {
+          if (response?.body.responseType) {
             // @ts-ignore
-            console.log(response.body.message, AlertType[response.body.type])
-            // @ts-ignore  //TODO Maybe can fix this?
-            alertBroker.add(response.body.message, AlertType[response.body.type]);
-            throw new Error("Interceptor consumed error");
+            if (response?.body.responseType === 'ui-exception') {
+              // @ts-ignore
+              console.log(response.body.message, AlertType[response.body.type])
+              // @ts-ignore  //TODO Maybe can fix this?
+              alertBroker.add(response.body.message, AlertType[response.body.type]);
+              throw new Error("Interceptor consumed error");
+            }
           }
         }
       }

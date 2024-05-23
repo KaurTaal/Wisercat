@@ -23,7 +23,11 @@ public class FilterController {
 
     @PostMapping(path = "/createFilter", consumes = "application/json")
     public @ResponseBody FilterDTO createFilter(@RequestBody FilterDTO filterDTO) {
-//        throw new UiAlertDangerException(UiAlertEnum.FILTER_SAVE_ERROR.getName());
         return filterService.createFilter(filterDTO);
+    }
+
+    @DeleteMapping(path = "/deleteFilter/{filterId}")
+    public void deleteFilterById(@PathVariable Long filterId) {
+        this.filterService.deleteFilter(filterId);
     }
 }

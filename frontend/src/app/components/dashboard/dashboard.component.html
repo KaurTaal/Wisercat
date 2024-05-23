@@ -8,16 +8,54 @@
     <hr>
   </div>
 
-  <div class="dashboard-content">
+  <div>
+    <ul>
+      @for (filter of filters; track filter) {
+        <li>
+          <nz-card style="width: 25rem" [nzTitle]="filter.name!">
+            <div class="card-content">
+              <table>
+                <colgroup>
+                  <col style="width: 20%;">
+                  <col style="width: 40%;">
+                  <col style="width: 40%;">
+                </colgroup>
+                <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Condition</th>
+                  <th>Value</th>
+                </tr>
+                </thead>
+                <tbody>
+                  @for (criterion of filter.criterionDTOList!; track criterion) {
+                    <tr>
+                      <td>
+                        {{ criterion.type }}
+                      </td>
 
-    @for (filter of filters; track filter) {
-      <nz-card style="width:300px;" [nzTitle]="filter.name!">
-        <p>Card content</p>
-        <p>Card content</p>
-        <p>Card content</p>
-      </nz-card>
-    }
+                      <td>
+                        {{criterion.condition}}
+                      </td>
 
+                      <td>
+                        {{getCriterionValue(criterion)}}
+                      </td>
+
+                    </tr>
+                  }
+                </tbody>
+              </table>
+              <div class="delete-button">
+                <button (click)="handleDelete(filter)" nz-button nzDanger><span nz-icon nzType="delete"
+                                                                                nzTheme="outline"></span></button>
+              </div>
+            </div>
+
+          </nz-card>
+        </li>
+      }
+    </ul>
   </div>
 </div>
 

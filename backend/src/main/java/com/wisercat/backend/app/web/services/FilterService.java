@@ -9,4 +9,6 @@ public interface FilterService {
     List<FilterDTO> getAllFilters();
 
     FilterDTO createFilter(FilterDTO filterDTO);
+
+    void deleteFilter(Long filterId);
 }
