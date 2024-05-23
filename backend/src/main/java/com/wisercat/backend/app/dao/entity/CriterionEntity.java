@@ -9,7 +9,7 @@ import lombok.Setter;
 
 import java.util.Date;
 
-@Table(name = "criterions")
+@Table(name = "criteria")
 @Entity
 @Getter
 @Setter
