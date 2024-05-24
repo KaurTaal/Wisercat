@@ -7,6 +7,8 @@ In order to start the database and backend you need to have Docker installed. If
 
 Running database & backend:
 * Open a terminal in `wisercat/backend`.
+* Run the command `gradlew clean`
+* Run the command `gradlew bootJar`
 * Run the command `docker compose up --build`
 
 You can check the status of running containers using the command ```docker ps```.
