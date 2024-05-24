@@ -9,7 +9,7 @@ Running database & backend:
 * Open a terminal in `wisercat/backend`.
 * Run the command `gradlew clean`
 * Run the command `gradlew bootJar`
-* Run the command `docker compose up --build` (if backend fails on initial run then restart the backend container and it should start)
+* Run the command `docker compose up --build` (if backend fails on initial run then restart the backend container from Docker Desktop and it should start)
 
 You can check the status of running containers using the command ```docker ps```.
 
