@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//TODO Refactor API
 
 @RestController
 @RequestMapping("api/filter")

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, DestroyRef, EventEmitter, OnInit, Output} from '@angular/core';
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import {NzInputDirective} from "ng-zorro-antd/input";
@@ -25,6 +25,7 @@ import {NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabe
 import {NzColDirective} from "ng-zorro-antd/grid";
 import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
 import {NzTooltipDirective} from "ng-zorro-antd/tooltip";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'wc-filter-form',
@@ -69,7 +70,8 @@ export class FilterFormComponent implements OnInit {
   filterForm: FormGroup;
 
   constructor(
-    private formBuilder: NonNullableFormBuilder) {
+    private formBuilder: NonNullableFormBuilder,
+    private destroyRef: DestroyRef,) {
     this.filterForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       criteriaList: this.formBuilder.array([])
@@ -83,8 +85,12 @@ export class FilterFormComponent implements OnInit {
     this.addCriterion();
   }
 
-  handleCancel(): void {
-    const isModalVisible = false;
+  clearFormAndHide(): void {
+    this.criteriaFormArray.clear();
+    this.addCriterion();
+    this.filterForm.reset();
+
+    const isModalVisible: boolean = false;
     this.closeEvent.emit(isModalVisible);
   }
 
@@ -104,13 +110,23 @@ export class FilterFormComponent implements OnInit {
   }
 
   createCriteriaForm(): FormGroup {
-    return this.formBuilder.group({
+    const newFormGroup = this.formBuilder.group({
       type: [CriterionType.AMOUNT, Validators.required],
       condition: [Condition.EQUAL_TO, Validators.required],
       valueAmount: [null],
       valueTitle: [null],
       valueDate: [null]
     }, {validators: this.oneValueRequiredValidator()});
+
+    newFormGroup.get("type")?.valueChanges.pipe((takeUntilDestroyed(this.destroyRef))).subscribe(() => {
+      this.handleTypeChange(this.criteriaFormArray.controls.indexOf(newFormGroup));
+    })
+
+    newFormGroup.get("condition")?.valueChanges.pipe((takeUntilDestroyed(this.destroyRef))).subscribe(() => {
+      this.markControlAsPristine(this.criteriaFormArray.controls.indexOf(newFormGroup));
+    })
+
+    return newFormGroup;
   }
 
   oneValueRequiredValidator(): ValidatorFn {
@@ -170,14 +186,6 @@ export class FilterFormComponent implements OnInit {
         control.updateValueAndValidity({onlySelf: true});
       }
     })
-  }
-
-  private clearFormAndHide(): void {
-    this.criteriaFormArray.clear();
-    this.addCriterion();
-    this.filterForm.reset();
-
-    this.handleCancel();
   }
 
   private setValueToNullOnEmpty(valueControl: AbstractControl<any, any> | null): void {
