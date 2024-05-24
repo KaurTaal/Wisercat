@@ -21,7 +21,7 @@ export const httpMiddleware: HttpInterceptorFn = (req, next) => {
             if (response?.body.responseType === 'ui-exception') {
               // @ts-ignore
               console.log(response.body.message, AlertType[response.body.type])
-              // @ts-ignore  //TODO Maybe can fix this?
+              // @ts-ignore
               alertBroker.add(response.body.message, AlertType[response.body.type]);
               throw new Error("Interceptor consumed error");
             }

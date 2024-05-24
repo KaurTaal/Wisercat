@@ -27,7 +27,7 @@
           <tr [formGroupName]="$index">
             <td>
               <div class="form-group">
-                <nz-select class="input-width-100" (ngModelChange)="handleTypeChange($index)" formControlName="type">
+                <nz-select class="input-width-100" formControlName="type">
                   @for (type of criterionTypeList; track type) {
                     <nz-option [nzLabel]="type.toString()" [nzValue]="type"></nz-option>
                   }
@@ -37,7 +37,7 @@
 
             <td>
               <div class="form-group">
-                <nz-select class="input-width-100" (ngModelChange)="markControlAsPristine($index)" formControlName="condition">
+                <nz-select class="input-width-100" formControlName="condition">
                   @for (condition of CriterionUtils.getConditionsByType(getControlValue($index)); track condition) {
                       <nz-option [nzLabel]="condition.toString()" [nzValue]="condition"></nz-option>
                   }
@@ -81,7 +81,7 @@
   </div>
 
   <div class="modal-btn-container">
-    <button style="color: lightcoral" nz-button (click)="handleCancel()">Cancel</button>
+    <button style="color: lightcoral" nz-button (click)="clearFormAndHide()">Cancel</button>
     <button style="color: lightgreen" nz-button (click)="handleSave()">Save</button>
   </div>
 </form>
