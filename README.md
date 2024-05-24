@@ -26,7 +26,7 @@ Running:
 - Open a terminal in ``wisercat/backend``
 - Run the command ``gradle bootRun``
 
-If you can access this [swagger ui](http://localhost:8080/swagger-ui.html), the backend is up and running.
+If you can access this [swagger ui](http://localhost:8081/swagger-ui.html), the backend is up and running.
 
 ## Frontend
 
